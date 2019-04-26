@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { postRoundsThunk } from "../reducers";
 
-export default class Home extends Component {
+class Home extends Component {
   constructor() {
     super();
     this.state = {
@@ -11,7 +13,7 @@ export default class Home extends Component {
       userImg: null,
       gameNum: 0,
       results: [],
-      batchComplete: false,
+      batchComplete: false
     };
     this.play.bind(this);
     this.cpuPlay.bind(this);
@@ -42,34 +44,34 @@ export default class Home extends Component {
     let cpuBtn = cpu.toString();
     let cpuImage;
     let typebtn = typeof cpuBtn;
-    console.log('cpu throw', cpu, 'player throw', input, 'result', result);
+    console.log("cpu throw", cpu, "player throw", input, "result", result);
     switch (cpuBtn) {
-      case '1,0,0':
-        cpuImage = 'https://i.imgur.com/adraueg.jpg';
+      case "1,0,0":
+        cpuImage = "https://i.imgur.com/adraueg.jpg";
         break;
-      case '0,1,0':
-        cpuImage = 'https://i.imgur.com/f85yLy6.jpg';
+      case "0,1,0":
+        cpuImage = "https://i.imgur.com/f85yLy6.jpg";
         break;
-      case '0,0,1':
-        cpuImage = 'https://i.imgur.com/eGRmmHO.jpg';
+      case "0,0,1":
+        cpuImage = "https://i.imgur.com/eGRmmHO.jpg";
         break;
       default:
-        console.log('switch fn error');
+        console.log("switch fn error");
     }
     let gameResult;
-    console.log('result is', result);
+    console.log("result is", result);
     switch (result) {
       case 1:
-        gameResult = 'Lose';
+        gameResult = "Lose";
         break;
       case 0:
-        gameResult = 'Tie';
+        gameResult = "Tie";
         break;
       case -1:
-        gameResult = 'Win';
+        gameResult = "Win";
         break;
       default:
-        console.log('switch fn error');
+        console.log("switch fn error");
     }
     let setOver = this.calcSetOver(newWl);
     let newResults = this.state.results;
@@ -81,10 +83,10 @@ export default class Home extends Component {
         wl: newWl,
         cpuImg: cpuImage,
         results: newResults,
-        batchComplete: setOver,
+        batchComplete: setOver
       };
     });
-    console.log('setover', setOver);
+    console.log("setover", setOver);
     if (setOver) {
       let numGames = this.state.user.length;
       let nullArray = [null];
@@ -98,6 +100,10 @@ export default class Home extends Component {
       }
 
       //after postingTo db
+      console.log(this.state, "STATE");
+      this.props.postRounds(this.state);
+      //POST TO DB
+
       this.setState(state => {
         return {
           user: [],
@@ -107,7 +113,7 @@ export default class Home extends Component {
           userImg: null,
           gameNum: 0,
           results: [],
-          batchComplete: false,
+          batchComplete: false
         };
       });
     }
@@ -126,9 +132,9 @@ export default class Home extends Component {
       [0, 0, 1, 0, 1, 0], // scissors vs paper
       [1, 0, 0, 0, 1, 0], // LOSSES  rock vs paper
       [0, 1, 0, 0, 0, 1], // paper vs scissors
-      [0, 0, 1, 1, 0, 0], // scissors vs rock
+      [0, 0, 1, 1, 0, 0] // scissors vs rock
     ];
-    console.log('game', game);
+    console.log("game", game);
 
     let result = 0;
     for (let i = 0; i < outcomes.length; i++) {
@@ -167,7 +173,7 @@ export default class Home extends Component {
             id="prock"
             onClick={() => {
               this.play([1, 0, 0]);
-              this.userButton('https://i.imgur.com/adraueg.jpg');
+              this.userButton("https://i.imgur.com/adraueg.jpg");
             }}
           >
             ROCK
@@ -176,7 +182,7 @@ export default class Home extends Component {
             id="ppaper"
             onClick={() => {
               this.play([0, 1, 0]);
-              this.userButton('https://i.imgur.com/f85yLy6.jpg');
+              this.userButton("https://i.imgur.com/f85yLy6.jpg");
             }}
           >
             PAPER
@@ -185,7 +191,7 @@ export default class Home extends Component {
             id="pscissors"
             onClick={() => {
               this.play([0, 0, 1]);
-              this.userButton('https://i.imgur.com/eGRmmHO.jpg ');
+              this.userButton("https://i.imgur.com/eGRmmHO.jpg ");
             }}
           >
             SCISSORS
@@ -195,8 +201,8 @@ export default class Home extends Component {
           SCOREBOARD: <br />
           {this.state.results.map((el, idx) => (
             <div>
-              {' '}
-              GAME {idx + 1}: {el}{' '}
+              {" "}
+              GAME {idx + 1}: {el}{" "}
             </div>
           ))}
         </div>
@@ -204,3 +210,16 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapState = state => ({
+  postRoundsArr: state.entries
+});
+
+const mapDispatch = dispatch => ({
+  postRounds: rounds => dispatch(postRoundsThunk(rounds))
+});
+
+export default connect(
+  mapState,
+  mapDispatch
+)(Home);
