@@ -11,6 +11,7 @@ export default class Home extends Component {
       userImg: null,
       gameNum: 0,
       results: [],
+      batchComplete: false,
     };
     this.play.bind(this);
     this.cpuPlay.bind(this);
@@ -70,6 +71,7 @@ export default class Home extends Component {
       default:
         console.log('switch fn error');
     }
+    let setOver = this.calcSetOver(newWl);
     let newResults = this.state.results;
     newResults.push(gameResult);
     this.setState(state => {
@@ -79,10 +81,10 @@ export default class Home extends Component {
         wl: newWl,
         cpuImg: cpuImage,
         results: newResults,
+        batchComplete: setOver,
       };
     });
-    let setOver = this.calcSetOver(newWl);
-    console.log(setOver);
+    console.log('setover', setOver);
     if (setOver) {
       let numGames = this.state.user.length;
       let nullArray = [null];
@@ -94,6 +96,20 @@ export default class Home extends Component {
         newCpu.push(nullArray);
         newWl.push(null);
       }
+
+      //after postingTo db
+      this.setState(state => {
+        return {
+          user: [],
+          cpu: [],
+          wl: [],
+          cpuImg: null,
+          userImg: null,
+          gameNum: 0,
+          results: [],
+          batchComplete: false,
+        };
+      });
     }
   }
 
