@@ -170,7 +170,6 @@ const data = [
 const seed = async () => {
   try {
     await db.sync({ force: true });
-
     await Promise.all(
       data.map(d => {
         return Dataset.create(d);
