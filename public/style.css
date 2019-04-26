@@ -35,3 +35,13 @@ main {
 a {
   color: white;
 }
+
+.sample {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.score {
+  margin-right: 100px;
+}
