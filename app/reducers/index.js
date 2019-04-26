@@ -1,36 +1,34 @@
-import axios from 'axios';
+import axios from "axios";
 
-const GET_DATA = 'GET_DATA';
+const GET_DATA = "GET_DATA";
 
 export const getData = data => {
-  console.log('getdata running');
-  return { type: 'GET_DATA', data: data };
+  console.log("getdata running");
+  return { type: "GET_DATA", data: data };
 };
 
-export const fetchData = () => {
-  console.log('fetchdata running');
+export const fetchDataThunk = () => {
+  console.log("fetchdata running");
   return dispatch => {
     axios
-      .get('/api/dataset')
+      .get("/api/dataset")
       .then(res => res.data)
       .then(data => {
-        dispatch({ type: 'GET_DATA', data: data });
+        dispatch({ type: "GET_DATA", data: data });
       })
-      .catch(err => console.error('failed to get dataset', err));
+      .catch(err => console.error("failed to get dataset", err));
   };
 };
 
 const initialState = {
-  entries: [],
+  entries: []
 };
 
-const rootReducer = (state = initialState, action ) = {
-  console.log(action);
+const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_DATA':
+    case GET_DATA:
       return Object.assign({}, state, { entries: action.data });
-    case 'TEST':
-      return state;
+
     default:
       return state;
   }
