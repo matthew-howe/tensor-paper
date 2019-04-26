@@ -1,15 +1,39 @@
-// `combineReducers` is not currently being used...but it should!
-// When you're ready to use it, un-comment the line below!
+import axios from 'axios';
 
-// import {combineReducers} from 'redux'
+const GET_DATA = 'GET_DATA';
 
-const initialState = {}
+export const getData = data => {
+  console.log('getdata running');
+  return { type: 'GET_DATA', data: data };
+};
 
-const rootReducer = (state = initialState, action) => {
+export const fetchData = () => {
+  console.log('fetchdata running');
+  return dispatch => {
+    axios
+      .get('/api/dataset')
+      .then(res => res.data)
+      .then(data => {
+        dispatch({ type: 'GET_DATA', data: data });
+      })
+      .catch(err => console.error('failed to get dataset', err));
+  };
+};
+
+const initialState = {
+  entries: [],
+};
+
+const rootReducer = (state = initialState, action ) = {
+  console.log(action);
   switch (action.type) {
+    case 'GET_DATA':
+      return Object.assign({}, state, { entries: action.data });
+    case 'TEST':
+      return state;
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default rootReducer
+export default rootReducer;
