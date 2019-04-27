@@ -12,7 +12,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const data = await round.findAll({});
+    const data = await round.findAll();
     if (data) {
       res.json(data);
     } else {

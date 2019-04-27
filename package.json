@@ -5,8 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "npm run build-watch & npm run start-server",
-    "start-dev": "npm run build-watch & npm run start-server",
-    "start-server": "node main.js -e html,js,css",
+    "start-server": "nodemon --watch server main.js -e html,js,css",
     "build-watch": "webpack -w",
     "seed": "node seed.js"
   },

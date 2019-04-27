@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { postRoundsThunk } from "../reducers";
+import { postRoundsThunk, fetchDataThunk } from "../reducers";
 
 class Home extends Component {
   constructor() {
@@ -22,7 +22,9 @@ class Home extends Component {
     this.cpuButton.bind(this);
     this.userButton.bind(this);
   }
-
+  componentDidMount() {
+    this.props.getRounds();
+  }
   cpuButton(img) {
     this.setState({ cpuImg: img });
   }
@@ -139,7 +141,8 @@ class Home extends Component {
     let result = 0;
     for (let i = 0; i < outcomes.length; i++) {
       if (outcomes[i].every((val, idx) => val === game[idx])) {
-        i > 3 ? result++ : result--;
+        console.log(i);
+        i >= 3 ? result++ : result--;
       }
     }
     return result;
@@ -153,7 +156,9 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.props, "PROPS");
+
+    //console.log(this.state);
     return (
       <div className="sample">
         <div>
@@ -212,11 +217,12 @@ class Home extends Component {
 }
 
 const mapState = state => ({
-  postRoundsArr: state.entries
+  dataSet: state.dataSet
 });
 
 const mapDispatch = dispatch => ({
-  postRounds: rounds => dispatch(postRoundsThunk(rounds))
+  postRounds: rounds => dispatch(postRoundsThunk(rounds)),
+  getRounds: () => dispatch(fetchDataThunk())
 });
 
 export default connect(
