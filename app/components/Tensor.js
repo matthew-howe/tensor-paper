@@ -81,7 +81,7 @@ class Tensor extends Component {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.1,
-        epochs: 1000,
+        epochs: 300,
         callbacks: {
           onTrainBegin: () => {
             console.log('starting...');
@@ -90,6 +90,7 @@ class Tensor extends Component {
             console.log(epoch);
             console.log(logs.loss.toFixed(5));
             this.setState({ tensor: { loss: logs.loss.toFixed(5), epoch } });
+            this.setState({ logs: { loss: logs } });
             console.log(this.state, 'STAAAATE');
           },
           onBatchEnd: async (batch, logs) => {
@@ -97,6 +98,11 @@ class Tensor extends Component {
           },
           onTrainEnd: () => {
             console.log('finished');
+            let input = tf.tensor2d([[1, 0, 0, 0, 1, 0, -1]]);
+            let results = model.predict(input);
+            results.print();
+            // const prediction = model.predict(tf.randomNormal([null, 7]));
+            // prediction.print();
           },
         },
       });
@@ -115,6 +121,7 @@ class Tensor extends Component {
         <button>SCISSORS</button>
         <p>CPU OUTPUT: {this.state && this.state.tensor.epoch} </p>
         <p>CPU OUTPUT: {this.state && this.state.tensor.loss} </p>
+        <p>CPU OUTPUT: {this.state && this.state.tensor.loss} </p>>
         <h1>USER INPUT:</h1>
         <button>ROCK</button>
         <button>PAPER</button>
