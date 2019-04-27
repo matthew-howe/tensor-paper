@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchDataThunk } from '../reducers/index';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchDataThunk } from "../reducers/index";
 class Tensor extends Component {
   constructor() {
     super();
     this.state = {
       tensor: {
         loss: 0,
-        epoch: 0,
-      },
+        epoch: 0
+      }
     };
   }
 
@@ -17,7 +17,7 @@ class Tensor extends Component {
     console.log(1);
   }
   async componentDidMount() {
-    await console.log(this.props, 'COMP DID MOUNT PROPS');
+    await console.log(this.props, "COMP DID MOUNT PROPS");
     console.log(2);
   }
   startTraining() {
@@ -45,7 +45,7 @@ class Tensor extends Component {
         gameHistory.push(game);
         userHistory.push(el.userThrow);
       });
-      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa', gameHistory, userHistory);
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", gameHistory, userHistory);
       xs = tf.tensor2d(gameHistory);
       ys = tf.tensor2d(userHistory);
 
@@ -56,11 +56,11 @@ class Tensor extends Component {
       const hidden = tf.layers.dense({
         units: 16,
         inputShape: [7],
-        activation: 'sigmoid',
+        activation: "sigmoid"
       });
       const output = tf.layers.dense({
         units: 3,
-        activation: 'softmax',
+        activation: "softmax"
       });
       model.add(hidden);
       model.add(output);
@@ -70,8 +70,8 @@ class Tensor extends Component {
 
       model.compile({
         optimizer: optimizer,
-        loss: 'categoricalCrossentropy',
-        metrics: ['accuracy'],
+        loss: "categoricalCrossentropy",
+        metrics: ["accuracy"]
       });
 
       train();
@@ -81,30 +81,39 @@ class Tensor extends Component {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.1,
-        epochs: 300,
+        epochs: 5,
         callbacks: {
           onTrainBegin: () => {
-            console.log('starting...');
+            console.log("starting...");
           },
           onEpochEnd: (epoch, logs) => {
             console.log(epoch);
             console.log(logs.loss.toFixed(5));
             this.setState({ tensor: { loss: logs.loss.toFixed(5), epoch } });
             this.setState({ logs: { loss: logs } });
-            console.log(this.state, 'STAAAATE');
           },
           onBatchEnd: async (batch, logs) => {
             await tf.nextFrame();
           },
           onTrainEnd: () => {
-            console.log('finished');
+            console.log("finished");
             let input = tf.tensor2d([[1, 0, 0, 0, 1, 0, -1]]);
             let results = model.predict(input);
             results.print();
+            let newResult;
+            let roundedResult;
+            newResult = results.dataSync();
+            console.log(newResult, "HERE");
+            newResult = newResult.map(Number);
+
+            console.log(newResult, "NEW RESULT");
+            this.setState({ tensorProbabilities: newResult });
+
+            console.log("THIS STATE", this.state.tensorProbabilities);
             // const prediction = model.predict(tf.randomNormal([null, 7]));
             // prediction.print();
-          },
-        },
+          }
+        }
       });
     };
     setup();
@@ -112,16 +121,28 @@ class Tensor extends Component {
   }
   render() {
     let cpuOutput = Math.random(1);
-    console.log(this.props, 'PROPS HERE');
+    console.log(this.props, "PROPS HERE");
     return (
       <div>
         <h1>CPU:</h1>
         <button>ROCK</button>
         <button>PAPER</button>
         <button>SCISSORS</button>
-        <p>CPU OUTPUT: {this.state && this.state.tensor.epoch} </p>
-        <p>CPU OUTPUT: {this.state && this.state.tensor.loss} </p>
-        <p>CPU OUTPUT: {this.state && this.state.tensor.loss} </p>>
+        <p>CPU EPOCH: {this.state && this.state.tensor.epoch} </p>
+        <p>CPU LOSS: {this.state && this.state.tensor.loss} </p>
+        <p>
+          ROCK %:{" "}
+          {this.state.tensorProbabilities &&
+            (this.state.tensorProbabilities[0] + "").slice(0, 5)}
+          <br />
+          PAPER %:{" "}
+          {this.state.tensorProbabilities &&
+            (this.state.tensorProbabilities[1] + "").slice(0, 5)}
+          <br />
+          SCISSORS%:{" "}
+          {this.state.tensorProbabilities &&
+            (this.state.tensorProbabilities[2] + "").slice(0, 5)}
+        </p>
         <h1>USER INPUT:</h1>
         <button>ROCK</button>
         <button>PAPER</button>
@@ -134,13 +155,13 @@ class Tensor extends Component {
 }
 
 const mapStateToProps = state => ({
-  dataSet: state.dataSet,
+  dataSet: state.dataSet
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchData: () => {
     dispatch(fetchDataThunk());
-  },
+  }
 });
 
 export default connect(
