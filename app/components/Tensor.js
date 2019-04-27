@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchDataThunk } from "../reducers/index";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchDataThunk } from '../reducers/index';
 class Tensor extends Component {
   constructor() {
     super();
     this.state = {
       tensor: {
         loss: 0,
-        epoch: 0
-      }
+        epoch: 0,
+      },
     };
   }
 
@@ -17,8 +17,10 @@ class Tensor extends Component {
     console.log(1);
   }
   async componentDidMount() {
-    await console.log(this.props, "COMP DID MOUNT PROPS");
+    await console.log(this.props, 'COMP DID MOUNT PROPS');
     console.log(2);
+  }
+  startTraining() {
     let data;
     let model;
     let xs, ys;
@@ -26,198 +28,39 @@ class Tensor extends Component {
     let labelList = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
 
     //    let data = this.props.dataSet
-    data = {
-      entries: [
-        {
-          b: 155,
-          g: 183,
-          label: "green-ish",
-          r: 81,
-          uid: "EjbbUhVExBSZxtpKfcQ5qzT7jDW2"
-        },
-        {
-          b: 71,
-          g: 22,
-          label: "pink-ish",
-          r: 249,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 33,
-          g: 196,
-          label: "orange-ish",
-          r: 254,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 237,
-          g: 147,
-          label: "blue-ish",
-          r: 170,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 225,
-          g: 159,
-          label: "blue-ish",
-          r: 15,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 166,
-          g: 235,
-          label: "green-ish",
-          r: 79,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 73,
-          g: 250,
-          label: "green-ish",
-          r: 29,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 31,
-          g: 245,
-          label: "green-ish",
-          r: 55,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 235,
-          g: 230,
-          label: "blue-ish",
-          r: 221,
-          uid: "CjIU4lEAoiPQXacjMVYSYz9bmpf1"
-        },
-        {
-          b: 52,
-          g: 182,
-          label: "orange-ish",
-          r: 196,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 51,
-          g: 72,
-          label: "brown-ish",
-          r: 123,
-          uid: "CjIU4lEAoiPQXacjMVYSYz9bmpf1"
-        },
-        {
-          b: 2,
-          g: 10,
-          label: "red-ish",
-          r: 209,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 160,
-          g: 104,
-          label: "pink-ish",
-          r: 177,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 18,
-          g: 207,
-          label: "yellow-ish",
-          r: 214,
-          uid: "CjIU4lEAoiPQXacjMVYSYz9bmpf1"
-        },
-        {
-          b: 24,
-          g: 165,
-          label: "orange-ish",
-          r: 239,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 49,
-          g: 155,
-          label: "green-ish",
-          r: 128,
-          uid: "wHjQX3jIO9QdONvjUQDZAJd7e6p2"
-        },
-        {
-          b: 208,
-          g: 11,
-          label: "purple-ish",
-          r: 137,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 125,
-          g: 74,
-          label: "pink-ish",
-          r: 205,
-          uid: "wHjQX3jIO9QdONvjUQDZAJd7e6p2"
-        },
-        {
-          b: 65,
-          g: 126,
-          label: "brown-ish",
-          r: 179,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 162,
-          g: 83,
-          label: "blue-ish",
-          r: 76,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 63,
-          g: 231,
-          label: "green-ish",
-          r: 116,
-          uid: "wHjQX3jIO9QdONvjUQDZAJd7e6p2"
-        },
-        {
-          b: 195,
-          g: 16,
-          label: "purple-ish",
-          r: 141,
-          uid: "fpqsSD6CvNNFQmRp9sJDdI1QJm32"
-        },
-        {
-          b: 161,
-          g: 210,
-          label: "green-ish",
-          r: 149,
-          uid: "CjIU4lEAoiPQXacjMVYSYz9bmpf1"
-        }
-      ]
-    };
+    data = this.props.dataSet;
 
     function setup() {
+      //    let data = this.props.dataSet
       // Crude interface
 
-      let colors = [];
-      let labels = [];
-      for (let record of data.entries) {
-        let col = [record.r / 255, record.g / 255, record.b / 255];
-        colors.push(col);
-        labels.push(labelList.indexOf(record.label));
-      }
+      let gameHistory = []; //maybe nest
+      let userHistory = [];
+      // gameHistory[0].push([0, 0, 0, 0, 0, 0, 0]);
+      data.forEach(el => {
+        let game = [];
+        game = game.concat(el.cpuThrow);
+        game = game.concat(el.userThrow);
+        game = game.concat(el.cpuWinStatus);
+        gameHistory.push(game);
+        userHistory.push(el.userThrow);
+      });
+      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa', gameHistory, userHistory);
+      xs = tf.tensor2d(gameHistory);
+      ys = tf.tensor2d(userHistory);
 
-      xs = tf.tensor2d(colors);
-      let labelsTensor = tf.tensor1d(labels, "int32");
-
-      ys = tf.oneHot(labelsTensor, 9).cast("float32");
-      labelsTensor.dispose();
+      // // ys = tf.oneHot(userHistoryTensor, 3).cast('float32');
+      // userHistoryTensor.dispose();
 
       model = tf.sequential();
       const hidden = tf.layers.dense({
         units: 16,
-        inputShape: [3],
-        activation: "sigmoid"
+        inputShape: [7],
+        activation: 'sigmoid',
       });
       const output = tf.layers.dense({
-        units: 9,
-        activation: "softmax"
+        units: 3,
+        activation: 'softmax',
       });
       model.add(hidden);
       model.add(output);
@@ -227,8 +70,8 @@ class Tensor extends Component {
 
       model.compile({
         optimizer: optimizer,
-        loss: "categoricalCrossentropy",
-        metrics: ["accuracy"]
+        loss: 'categoricalCrossentropy',
+        metrics: ['accuracy'],
       });
 
       train();
@@ -238,24 +81,24 @@ class Tensor extends Component {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.1,
-        epochs: 20,
+        epochs: 1000,
         callbacks: {
           onTrainBegin: () => {
-            console.log("starting...");
+            console.log('starting...');
           },
           onEpochEnd: (epoch, logs) => {
             console.log(epoch);
             console.log(logs.loss.toFixed(5));
             this.setState({ tensor: { loss: logs.loss.toFixed(5), epoch } });
-            console.log(this.state, "STAAAATE");
+            console.log(this.state, 'STAAAATE');
           },
           onBatchEnd: async (batch, logs) => {
             await tf.nextFrame();
           },
           onTrainEnd: () => {
-            console.log("finished");
-          }
-        }
+            console.log('finished');
+          },
+        },
       });
     };
     setup();
@@ -263,7 +106,7 @@ class Tensor extends Component {
   }
   render() {
     let cpuOutput = Math.random(1);
-    console.log(this.props, "PROPS HERE");
+    console.log(this.props, 'PROPS HERE');
     return (
       <div>
         <h1>CPU:</h1>
@@ -276,19 +119,21 @@ class Tensor extends Component {
         <button>ROCK</button>
         <button>PAPER</button>
         <button>SCISSORS</button>
+        <br />
+        <button onClick={() => this.startTraining()}>START TRAINING</button>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  dataSet: state.dataSet
+  dataSet: state.dataSet,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchData: () => {
     dispatch(fetchDataThunk());
-  }
+  },
 });
 
 export default connect(
