@@ -139,7 +139,8 @@ class Home extends Component {
     let result = 0;
     for (let i = 0; i < outcomes.length; i++) {
       if (outcomes[i].every((val, idx) => val === game[idx])) {
-        i > 3 ? result++ : result--;
+        console.log(i);
+        i >= 3 ? result++ : result--;
       }
     }
     return result;

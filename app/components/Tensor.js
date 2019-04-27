@@ -2,10 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchDataThunk } from "../reducers/index";
 class Tensor extends Component {
+  constructor() {
+    super();
+    this.state = {
+      tensor: {
+        loss: 0,
+        epoch: 0
+      }
+    };
+  }
+
   componentDidMount() {
     this.props.fetchData();
-  }
-  render() {
     let data;
     let model;
     let xs, ys;
@@ -233,11 +241,11 @@ class Tensor extends Component {
       train();
     }
 
-    async function train() {
+    const train = async () => {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.1,
-        epochs: 2,
+        epochs: 200,
         callbacks: {
           onTrainBegin: () => {
             console.log("starting...");
@@ -245,6 +253,8 @@ class Tensor extends Component {
           onEpochEnd: (epoch, logs) => {
             console.log(epoch);
             console.log(logs.loss.toFixed(5));
+            this.setState({ tensor: { loss: logs.loss.toFixed(5), epoch } });
+            console.log(this.state, "STAAAATE");
           },
           onBatchEnd: async (batch, logs) => {
             await tf.nextFrame();
@@ -254,7 +264,7 @@ class Tensor extends Component {
           }
         }
       });
-    }
+    };
 
     function draw() {
       tf.tidy(() => {
@@ -268,7 +278,9 @@ class Tensor extends Component {
       });
     }
     setup();
-    train();
+    // train();
+  }
+  render() {
     let cpuOutput = Math.random(1);
     console.log(this.props, "PROPS HERE");
     return (
@@ -277,7 +289,8 @@ class Tensor extends Component {
         <button>ROCK</button>
         <button>PAPER</button>
         <button>SCISSORS</button>
-        <p>CPU OUTPUT: {cpuOutput && cpuOutput} </p>
+        <p>CPU OUTPUT: {this.state && this.state.tensor.epoch} </p>
+        <p>CPU OUTPUT: {this.state && this.state.tensor.loss} </p>
         <h1>USER INPUT:</h1>
         <button>ROCK</button>
         <button>PAPER</button>
