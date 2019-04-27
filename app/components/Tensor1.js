@@ -12,20 +12,27 @@ class Tensor extends Component {
     };
   }
 
-  async componentWillMount() {
-    await this.props.fetchData();
-    console.log(1);
-  }
-  async componentDidMount() {
-    await console.log(this.props, "COMP DID MOUNT PROPS");
-    console.log(2);
+  componentDidMount() {
+    this.props.fetchData();
     let data;
     let model;
     let xs, ys;
+    let rSlider, gSlider, bSlider;
+    let labelP;
+    let lossP;
 
-    let labelList = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    let labelList = [
+      "red-ish",
+      "green-ish",
+      "blue-ish",
+      "orange-ish",
+      "yellow-ish",
+      "pink-ish",
+      "purple-ish",
+      "brown-ish",
+      "grey-ish"
+    ];
 
-    //    let data = this.props.dataSet
     data = {
       entries: [
         {
@@ -238,7 +245,7 @@ class Tensor extends Component {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.1,
-        epochs: 20,
+        epochs: 200,
         callbacks: {
           onTrainBegin: () => {
             console.log("starting...");
@@ -258,6 +265,18 @@ class Tensor extends Component {
         }
       });
     };
+
+    function draw() {
+      tf.tidy(() => {
+        let r, p, s;
+        const input = tf.tensor2d([[r, p, s]]);
+        let results = model.predict(input);
+        let argMax = results.argMax(1);
+        let index = argMax.dataSync()[0];
+        let label = labelList[index];
+        labelP.html(label);
+      });
+    }
     setup();
     // train();
   }
@@ -282,7 +301,7 @@ class Tensor extends Component {
 }
 
 const mapStateToProps = state => ({
-  dataSet: state.dataSet
+  entries: state.entries
 });
 
 const mapDispatchToProps = dispatch => ({

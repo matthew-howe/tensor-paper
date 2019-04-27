@@ -1,5 +1,9 @@
 import axios from "axios";
 
+const initialState = {
+  dataSet: []
+};
+
 const GET_DATA = "GET_DATA";
 const POST_ROUNDS = "POST_ROUNDS";
 
@@ -16,7 +20,7 @@ export const fetchDataThunk = () => {
   console.log("fetchdata running");
   return dispatch => {
     axios
-      .get("/api/dataset")
+      .get("/api/rounds")
       .then(res => res.data)
       .then(data => {
         dispatch({ type: "GET_DATA", data: data });
@@ -40,15 +44,10 @@ export const postRoundsThunk = newRounds => {
   };
 };
 
-const initialState = {
-  entries: []
-};
-
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_DATA:
-      return Object.assign({}, state, { entries: action.data });
-
+      return Object.assign({}, state, { dataSet: action.data });
     default:
       return state;
   }
