@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchDataThunk } from '../reducers/index';
+import { fetchDataThunk, postRoundsThunk } from '../reducers/index';
 class Tensor extends Component {
   constructor() {
     super();
@@ -9,6 +9,15 @@ class Tensor extends Component {
         loss: 0,
         epoch: 0,
       },
+      user: [],
+      cpu: [],
+      wl: [],
+      cpuImg: null,
+      userImg: null,
+      gameNum: 0,
+      results: [],
+      batchComplete: false,
+      lastGameResult: [1, 0, 0, 1, 0, 0, 0],
     };
   }
 
@@ -17,9 +26,141 @@ class Tensor extends Component {
     console.log(1);
   }
   async componentDidMount() {
-    await console.log(this.props, 'COMP DID MOUNT PROPS');
-    console.log(2);
+    this.props.getRounds();
   }
+
+  userButton(img) {
+    this.setState({ userImg: img });
+  }
+
+  play(input) {
+    let cpu = this.cpuPlay();
+    let game = input.concat(cpu);
+    let result = this.calcWin(game);
+    let lastGameResult = game;
+    lastGameResult.push(result);
+    console.log('LGR', lastGameResult);
+    this.setState({ lastGameResult: lastGameResult });
+    let newUser = this.state.user;
+    let newCpu = this.state.cpu;
+    let newWl = this.state.wl;
+    console.log(this.state, 'PROPasdfasdfasdfS');
+    newUser.push(input);
+    newCpu.push(cpu);
+    newWl.push(result);
+    let cpuBtn = cpu.toString();
+    let cpuImage;
+    let typebtn = typeof cpuBtn;
+    console.log('cpu throw', cpu, 'player throw', input, 'result', result);
+    switch (cpuBtn) {
+      case '1,0,0':
+        cpuImage = 'https://i.imgur.com/adraueg.jpg';
+        break;
+      case '0,1,0':
+        cpuImage = 'https://i.imgur.com/f85yLy6.jpg';
+        break;
+      case '0,0,1':
+        cpuImage = 'https://i.imgur.com/eGRmmHO.jpg';
+        break;
+      default:
+        console.log('switch fn error');
+    }
+    let gameResult;
+    console.log('result is', result);
+    switch (result) {
+      case 1:
+        gameResult = 'Lose';
+        break;
+      case 0:
+        gameResult = 'Tie';
+        break;
+      case -1:
+        gameResult = 'Win';
+        break;
+      default:
+        console.log('switch fn error');
+    }
+    let setOver = this.calcSetOver(newWl);
+    let newResults = this.state.results;
+    newResults.push(gameResult);
+    this.setState(state => {
+      return {
+        user: newUser,
+        cpu: newCpu,
+        wl: newWl,
+        cpuImg: cpuImage,
+        results: newResults,
+        batchComplete: setOver,
+      };
+    });
+    console.log('setover', setOver);
+    if (setOver) {
+      let numGames = this.state.user.length;
+      let nullArray = [null];
+      let newUser = this.state.user;
+      let newCpu = this.state.cpu;
+      let newWl = this.state.wl;
+      while (newWl.length < 9) {
+        newUser.push(nullArray);
+        newCpu.push(nullArray);
+        newWl.push(null);
+      }
+
+      //after postingTo db
+      console.log(this.state, 'STATE');
+      this.props.postRounds(this.state);
+      this.props.fetchData();
+      //POST TO DB
+
+      this.setState(state => {
+        return {
+          user: [],
+          cpu: [],
+          wl: [],
+          cpuImg: null,
+          userImg: null,
+          gameNum: 0,
+          results: [],
+          batchComplete: false,
+        };
+      });
+    }
+  }
+
+  cpuPlay() {
+    let cpu = [[1, 0, 0], [0, 1, 0], [0, 0, 1]][Math.floor(Math.random() * 3)];
+    return cpu;
+  }
+
+  calcWin(game) {
+    const outcomes = [
+      // user => cpu
+      [1, 0, 0, 0, 0, 1], // WINS rock vs scissors
+      [0, 1, 0, 1, 0, 0], // paper vs rock
+      [0, 0, 1, 0, 1, 0], // scissors vs paper
+      [1, 0, 0, 0, 1, 0], // LOSSES  rock vs paper
+      [0, 1, 0, 0, 0, 1], // paper vs scissors
+      [0, 0, 1, 1, 0, 0], // scissors vs rock
+    ];
+    console.log('game', game);
+
+    let result = 0;
+    for (let i = 0; i < outcomes.length; i++) {
+      if (outcomes[i].every((val, idx) => val === game[idx])) {
+        console.log(i);
+        i >= 3 ? result++ : result--;
+      }
+    }
+    return result;
+  }
+
+  calcSetOver(wl) {
+    if (wl.length >= 9) return true;
+    let sum = wl.reduce((acc, el) => acc + el, 0);
+    if (sum === -5 || sum === 5) return true;
+    return false;
+  }
+
   startTraining() {
     let data;
     let model;
@@ -81,7 +222,7 @@ class Tensor extends Component {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.1,
-        epochs: 300,
+        epochs: 3,
         callbacks: {
           onTrainBegin: () => {
             console.log('starting...');
@@ -91,16 +232,25 @@ class Tensor extends Component {
             console.log(logs.loss.toFixed(5));
             this.setState({ tensor: { loss: logs.loss.toFixed(5), epoch } });
             this.setState({ logs: { loss: logs } });
-            console.log(this.state, 'STAAAATE');
           },
           onBatchEnd: async (batch, logs) => {
             await tf.nextFrame();
           },
           onTrainEnd: () => {
             console.log('finished');
-            let input = tf.tensor2d([[1, 0, 0, 0, 1, 0, -1]]);
+            let input = tf.tensor2d([this.state.lastGameResult]);
             let results = model.predict(input);
             results.print();
+            let newResult;
+            let roundedResult;
+            newResult = results.dataSync();
+            console.log(newResult, 'HERE');
+            newResult = newResult.map(Number);
+
+            console.log(newResult, 'NEW RESULT');
+            this.setState({ tensorProbabilities: newResult });
+
+            console.log('THIS STATE', this.state.tensorProbabilities);
             // const prediction = model.predict(tf.randomNormal([null, 7]));
             // prediction.print();
           },
@@ -111,23 +261,91 @@ class Tensor extends Component {
     // train();
   }
   render() {
-    let cpuOutput = Math.random(1);
-    console.log(this.props, 'PROPS HERE');
+    console.log(this.props, 'PROPS HERE', this.state, 'STATE HERE');
     return (
-      <div>
-        <h1>CPU:</h1>
-        <button>ROCK</button>
-        <button>PAPER</button>
-        <button>SCISSORS</button>
-        <p>CPU OUTPUT: {this.state && this.state.tensor.epoch} </p>
-        <p>CPU OUTPUT: {this.state && this.state.tensor.loss} </p>
-        <p>CPU OUTPUT: {this.state && this.state.tensor.loss} </p>>
-        <h1>USER INPUT:</h1>
-        <button>ROCK</button>
-        <button>PAPER</button>
-        <button>SCISSORS</button>
-        <br />
-        <button onClick={() => this.startTraining()}>START TRAINING</button>
+      <div className="sample">
+        <div className="score">
+          SCOREBOARD: <br />
+          {this.state.results &&
+            this.state.results.map((el, idx) => (
+              <div>
+                {' '}
+                GAME {idx + 1}: {el}{' '}
+              </div>
+            ))}
+        </div>
+        <div>
+          <div>
+            <div>
+              <div className="userInput">
+                {/* <img src="https://i.imgur.com/f85yLy6.jpg" />
+        <img src="https://i.imgur.com/adraueg.jpg" />
+        <img src="https://i.imgur.com/eGRmmHO.jpg" /> */}
+                <h1>
+                  CPU: <img src={this.state.cpuImg} />
+                </h1>
+                {/* <button id="1,0,0">ROCK</button>
+        <button id="0,1,0">PAPER</button>
+        <button id="0,0,1">SCISSORS</button> */}
+                <h1>
+                  USER: <img src={this.state.userImg} />
+                </h1>
+                <button
+                  id="prock"
+                  onClick={() => {
+                    this.play([1, 0, 0]);
+                    this.userButton('https://i.imgur.com/adraueg.jpg');
+                  }}
+                >
+                  ROCK
+                </button>
+                <button
+                  id="ppaper"
+                  onClick={() => {
+                    this.play([0, 1, 0]);
+                    this.userButton('https://i.imgur.com/f85yLy6.jpg');
+                  }}
+                >
+                  PAPER
+                </button>
+                <button
+                  id="pscissors"
+                  onClick={() => {
+                    this.play([0, 0, 1]);
+                    this.userButton('https://i.imgur.com/eGRmmHO.jpg ');
+                  }}
+                >
+                  SCISSORS
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div />
+            </div>
+          </div>
+        </div>
+        <div className="tensorData">
+          <p>CPU EPOCH: {this.state && this.state.tensor.epoch} </p>
+          <p>CPU LOSS: {this.state && this.state.tensor.loss} </p>
+          <p>
+            ROCK %:{' '}
+            {this.state.tensorProbabilities &&
+              (this.state.tensorProbabilities[0] + '').slice(0, 5)}
+            <br />
+            PAPER %:{' '}
+            {this.state.tensorProbabilities &&
+              (this.state.tensorProbabilities[1] + '').slice(0, 5)}
+            <br />
+            SCISSORS%:{' '}
+            {this.state.tensorProbabilities &&
+              (this.state.tensorProbabilities[2] + '').slice(0, 5)}
+          </p>
+        </div>
+        <div>
+          <br />
+          <button onClick={() => this.startTraining()}>START TRAINING</button>
+        </div>
       </div>
     );
   }
@@ -141,6 +359,8 @@ const mapDispatchToProps = dispatch => ({
   fetchData: () => {
     dispatch(fetchDataThunk());
   },
+  postRounds: rounds => dispatch(postRoundsThunk(rounds)),
+  getRounds: () => dispatch(fetchDataThunk()),
 });
 
 export default connect(
