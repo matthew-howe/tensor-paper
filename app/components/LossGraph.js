@@ -1,17 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 var value = 0.23;
 export default class LossGraph extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [0.2, 0.5, 0.3, 0.8, 0.1, 0.5, 0.2, 0.5, 0.3, 0.8, 0.1, 0.5]
+      data: [0.2, 0.5, 0.3, 0.8, 0.1, 0.5, 0.2, 0.5, 0.3, 0.8, 0.1, 0.5],
     };
     this.createGraph.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.createGraph();
+  }
 
   componentWillUpdate() {}
 
@@ -21,19 +23,19 @@ export default class LossGraph extends Component {
   }
 
   createGraph() {
-    console.log(this.state.data, "THIS DOT STATE");
+    console.log(this.state.data, 'THIS DOT STATE');
     var n = 40;
     var random = d3.randomNormal(0, 0.2);
     var data = this.state.data;
-    console.log(data, "random");
+    console.log(data, 'random');
     // data = [1, 2, 4];
-    var svg = d3.select("svg"),
+    var svg = d3.select('svg'),
       margin = { top: 20, right: 20, bottom: 20, left: 40 },
-      width = +svg.attr("width") - margin.left - margin.right,
-      height = +svg.attr("height") - margin.top - margin.bottom,
+      width = +svg.attr('width') - margin.left - margin.right,
+      height = +svg.attr('height') - margin.top - margin.bottom,
       g = svg
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
     var x = d3
       .scaleLinear()
       .domain([0, n - 1])
@@ -50,40 +52,40 @@ export default class LossGraph extends Component {
       .y(function(d, i) {
         return y(d);
       });
-    g.append("defs")
-      .append("clipPath")
-      .attr("id", "clip")
-      .append("rect")
-      .attr("width", width)
-      .attr("height", height);
-    g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + y(0) + ")")
+    g.append('defs')
+      .append('clipPath')
+      .attr('id', 'clip')
+      .append('rect')
+      .attr('width', width)
+      .attr('height', height);
+    g.append('g')
+      .attr('class', 'axis axis--x')
+      .attr('transform', 'translate(0,' + y(0) + ')')
       .call(d3.axisBottom(x));
-    g.append("g")
-      .attr("class", "axis axis--y")
+    g.append('g')
+      .attr('class', 'axis axis--y')
       .call(d3.axisLeft(y));
-    g.append("g")
-      .attr("clip-path", "url(#clip)")
-      .append("path")
+    g.append('g')
+      .attr('clip-path', 'url(#clip)')
+      .append('path')
       .datum(data)
-      .attr("class", "line")
+      .attr('class', 'line')
       .transition()
       .duration(500)
       .ease(d3.easeLinear)
-      .on("start", tick);
+      .on('start', tick);
     function tick() {
       // Push a new data point onto the back.
       data.push(value);
       // Redraw the line.
       d3.select(this)
-        .attr("d", line)
-        .attr("transform", null);
+        .attr('d', line)
+        .attr('transform', null);
       // Slide it to the left.
       d3.active(this)
-        .attr("transform", "translate(" + x(-1) + ",0)")
+        .attr('transform', 'translate(' + x(-1) + ',0)')
         .transition()
-        .on("start", tick);
+        .on('start', tick);
       // Pop the old data point off the front.
       data.shift();
     }
@@ -110,7 +112,6 @@ export default class LossGraph extends Component {
     return (
       <div>
         <svg width="960" height="500" />;
-        <button onClick={() => this.createGraph()}>HERES THE BUTTON </button>
       </div>
     );
   }
