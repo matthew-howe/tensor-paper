@@ -42,6 +42,20 @@ a {
   justify-content: space-between;
 }
 
+.tps {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .score {
-  margin-right: 100px;
+  margin: 25px;
+}
+
+.userInput {
+  margin: 25px;
+}
+
+.tensorData {
+  margin: 25px;
 }
