@@ -59,3 +59,9 @@ a {
 .tensorData {
   margin: 25px;
 }
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}

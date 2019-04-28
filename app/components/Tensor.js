@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchDataThunk, postRoundsThunk } from '../reducers/index';
+import LossGraph from './LossGraph';
+
 class Tensor extends Component {
   constructor() {
     super();
@@ -263,89 +265,92 @@ class Tensor extends Component {
   render() {
     console.log(this.props, 'PROPS HERE', this.state, 'STATE HERE');
     return (
-      <div className="sample">
-        <div className="score">
-          SCOREBOARD: <br />
-          {this.state.results &&
-            this.state.results.map((el, idx) => (
-              <div>
-                {' '}
-                GAME {idx + 1}: {el}{' '}
-              </div>
-            ))}
-        </div>
-        <div>
+      <div>
+        <div className="sample">
+          <div className="score">
+            SCOREBOARD: <br />
+            {this.state.results &&
+              this.state.results.map((el, idx) => (
+                <div>
+                  {' '}
+                  GAME {idx + 1}: {el}{' '}
+                </div>
+              ))}
+          </div>
           <div>
             <div>
-              <div className="userInput">
-                {/* <img src="https://i.imgur.com/f85yLy6.jpg" />
+              <div>
+                <div className="userInput">
+                  {/* <img src="https://i.imgur.com/f85yLy6.jpg" />
         <img src="https://i.imgur.com/adraueg.jpg" />
         <img src="https://i.imgur.com/eGRmmHO.jpg" /> */}
-                <h1>
-                  CPU: <img src={this.state.cpuImg} />
-                </h1>
-                {/* <button id="1,0,0">ROCK</button>
+                  <h1>
+                    CPU: <img src={this.state.cpuImg} />
+                  </h1>
+                  {/* <button id="1,0,0">ROCK</button>
         <button id="0,1,0">PAPER</button>
         <button id="0,0,1">SCISSORS</button> */}
-                <h1>
-                  USER: <img src={this.state.userImg} />
-                </h1>
-                <button
-                  id="prock"
-                  onClick={() => {
-                    this.play([1, 0, 0]);
-                    this.userButton('https://i.imgur.com/adraueg.jpg');
-                  }}
-                >
-                  ROCK
-                </button>
-                <button
-                  id="ppaper"
-                  onClick={() => {
-                    this.play([0, 1, 0]);
-                    this.userButton('https://i.imgur.com/f85yLy6.jpg');
-                  }}
-                >
-                  PAPER
-                </button>
-                <button
-                  id="pscissors"
-                  onClick={() => {
-                    this.play([0, 0, 1]);
-                    this.userButton('https://i.imgur.com/eGRmmHO.jpg ');
-                  }}
-                >
-                  SCISSORS
-                </button>
+                  <h1>
+                    USER: <img src={this.state.userImg} />
+                  </h1>
+                  <button
+                    id="prock"
+                    onClick={() => {
+                      this.play([1, 0, 0]);
+                      this.userButton('https://i.imgur.com/adraueg.jpg');
+                    }}
+                  >
+                    ROCK
+                  </button>
+                  <button
+                    id="ppaper"
+                    onClick={() => {
+                      this.play([0, 1, 0]);
+                      this.userButton('https://i.imgur.com/f85yLy6.jpg');
+                    }}
+                  >
+                    PAPER
+                  </button>
+                  <button
+                    id="pscissors"
+                    onClick={() => {
+                      this.play([0, 0, 1]);
+                      this.userButton('https://i.imgur.com/eGRmmHO.jpg ');
+                    }}
+                  >
+                    SCISSORS
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div />
               </div>
             </div>
-
-            <div>
-              <div />
-            </div>
+          </div>
+          <div className="tensorData">
+            <p>CPU EPOCH: {this.state && this.state.tensor.epoch} </p>
+            <p>CPU LOSS: {this.state && this.state.tensor.loss} </p>
+            <p>
+              ROCK %:{' '}
+              {this.state.tensorProbabilities &&
+                (this.state.tensorProbabilities[0] + '').slice(0, 5)}
+              <br />
+              PAPER %:{' '}
+              {this.state.tensorProbabilities &&
+                (this.state.tensorProbabilities[1] + '').slice(0, 5)}
+              <br />
+              SCISSORS%:{' '}
+              {this.state.tensorProbabilities &&
+                (this.state.tensorProbabilities[2] + '').slice(0, 5)}
+            </p>
+          </div>
+          <div>
+            <br />
+            <button onClick={() => this.startTraining()}>START TRAINING</button>
           </div>
         </div>
-        <div className="tensorData">
-          <p>CPU EPOCH: {this.state && this.state.tensor.epoch} </p>
-          <p>CPU LOSS: {this.state && this.state.tensor.loss} </p>
-          <p>
-            ROCK %:{' '}
-            {this.state.tensorProbabilities &&
-              (this.state.tensorProbabilities[0] + '').slice(0, 5)}
-            <br />
-            PAPER %:{' '}
-            {this.state.tensorProbabilities &&
-              (this.state.tensorProbabilities[1] + '').slice(0, 5)}
-            <br />
-            SCISSORS%:{' '}
-            {this.state.tensorProbabilities &&
-              (this.state.tensorProbabilities[2] + '').slice(0, 5)}
-          </p>
-        </div>
-        <div>
-          <br />
-          <button onClick={() => this.startTraining()}>START TRAINING</button>
-        </div>
+        <LossGraph loss={this.state.tensor.loss} />
       </div>
     );
   }
