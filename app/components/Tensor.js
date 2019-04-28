@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchDataThunk, postRoundsThunk } from '../reducers/index';
 import LossGraph from './LossGraph';
+import PredictionGraph from './PredictionGraph';
 
 let index = 0;
 let model = null;
+let allResults = [0, 0, 0];
 class Tensor extends Component {
   constructor() {
     super();
@@ -22,7 +24,7 @@ class Tensor extends Component {
       gameNum: 0,
       results: [],
       batchComplete: false,
-      lastGameResult: [1, 0, 0, 1, 0, 0, 0],
+      lastGameResult: [0, 0, 1, 0, 0, 1, 1],
     };
   }
 
@@ -38,41 +40,28 @@ class Tensor extends Component {
     this.setState({ userImg: img });
   }
 
-  // const input = tf.tensor2d([
-  //   [r, g, b]
-  // ]);
-  // let results = model.predict(input);
-  // let argMax = results.argMax(1);
-  // let index = argMax.dataSync()[0];
-  // let label = labelList[index];
-  // labelP.html(label);
-
-  play(input) {
-    if (!model) this.startTraining();
+  async play(input) {
+    if (!model) await this.startTraining();
     let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
-    // prediction = prediction.dataSync();
+    allResults = results.dataSync();
+    console.log('fasdfasdfasdfasdfasdf', allResults);
     let argMax = results.argMax(1);
     index = argMax.dataSync()[0];
-    console.log(index, 'asdfsafdfasdfsafzzzzzzzzzzzzzzzzzz');
-
     let cpu = this.cpuPlay();
     let game = input.concat(cpu);
     let result = this.calcWin(game);
     let lastGameResult = game;
     lastGameResult.push(result);
-    console.log('LGR', lastGameResult);
     this.setState({ lastGameResult: lastGameResult });
     let newUser = this.state.user;
     let newCpu = this.state.cpu;
     let newWl = this.state.wl;
-    console.log(this.state, 'PROPasdfasdfasdfS');
     newUser.push(input);
     newCpu.push(cpu);
     newWl.push(result);
     let cpuBtn = cpu.toString();
     let cpuImage;
     let typebtn = typeof cpuBtn;
-    console.log('cpu throw', cpu, 'player throw', input, 'result', result);
     switch (cpuBtn) {
       case '1,0,0':
         cpuImage = 'https://i.imgur.com/adraueg.jpg';
@@ -87,7 +76,6 @@ class Tensor extends Component {
         console.log('switch fn error');
     }
     let gameResult;
-    console.log('result is', result);
     switch (result) {
       case 1:
         gameResult = 'Lose';
@@ -114,7 +102,6 @@ class Tensor extends Component {
         batchComplete: setOver,
       };
     });
-    console.log('setover', setOver);
     if (setOver) {
       let numGames = this.state.user.length;
       let nullArray = [0, 0, 0];
@@ -128,7 +115,6 @@ class Tensor extends Component {
       }
 
       //after postingTo db
-      console.log(this.state, 'STATE');
       this.props.postRounds(this.state);
       this.props.fetchData();
       //POST TO DB
@@ -150,7 +136,8 @@ class Tensor extends Component {
   }
 
   cpuPlay() {
-    let cpu = [[1, 0, 0], [0, 1, 0], [0, 0, 1]][index];
+    let cpu = [[0, 1, 0], [0, 0, 1], [1, 0, 0]][index];
+    //counter to predicted user throw
     return cpu;
   }
 
@@ -164,7 +151,6 @@ class Tensor extends Component {
       [0, 1, 0, 0, 0, 1], // paper vs scissors
       [0, 0, 1, 1, 0, 0], // scissors vs rock
     ];
-    console.log('game', game);
 
     let result = 0;
     for (let i = 0; i < outcomes.length; i++) {
@@ -185,21 +171,13 @@ class Tensor extends Component {
 
   startTraining() {
     let data;
-    // let model;
     let xs, ys;
-
     let labelList = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
-
-    //    let data = this.props.dataSet
     data = this.props.dataSet;
 
     function setup() {
-      //    let data = this.props.dataSet
-      // Crude interface
-
       let gameHistory = []; //maybe nest
       let userHistory = [];
-      // gameHistory[0].push([0, 0, 0, 0, 0, 0, 0]);
       data.forEach(el => {
         let game = [];
         game = game.concat(el.cpuThrow);
@@ -208,12 +186,8 @@ class Tensor extends Component {
         gameHistory.push(game);
         userHistory.push(el.userThrow);
       });
-      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa', gameHistory, userHistory);
       xs = tf.tensor2d(gameHistory);
       ys = tf.tensor2d(userHistory);
-
-      // // ys = tf.oneHot(userHistoryTensor, 3).cast('float32');
-      // userHistoryTensor.dispose();
 
       model = tf.sequential();
       const hidden = tf.layers.dense({
@@ -236,7 +210,6 @@ class Tensor extends Component {
         loss: 'categoricalCrossentropy',
         metrics: ['accuracy'],
       });
-      console.log('the model', model);
       train();
     }
 
@@ -252,26 +225,27 @@ class Tensor extends Component {
           onEpochEnd: (epoch, logs) => {
             console.log(epoch);
             console.log(logs.loss.toFixed(5));
+            let input = tf.tensor2d([this.state.lastGameResult]);
+            let results = model.predict(input);
+            let newResult;
+            newResult = results.dataSync();
             this.setState({ tensor: { loss: logs.loss.toFixed(5), epoch } });
             this.setState({ logs: { loss: logs } });
+            this.setState({ tensorProbabilities: newResult });
           },
           onBatchEnd: async (batch, logs) => {
             await tf.nextFrame();
           },
           onTrainEnd: () => {
             console.log('finished');
-            let input = tf.tensor2d([this.state.lastGameResult]);
-            let results = model.predict(input);
-            results.print();
-            let newResult;
-            let roundedResult;
-            newResult = results.dataSync();
-            console.log(newResult, 'HERE');
-            newResult = newResult.map(Number);
-            // this.setState({ tensor: { model: model } });
-            console.log('the model', model);
+            // let input = tf.tensor2d([this.state.lastGameResult]);
+            // let results = model.predict(input);
+            // results.print();
+            // let newResult;
+            // let roundedResult;
+            // newResult = results.dataSync();
+            // newResult = newResult.map(Number);
 
-            console.log(newResult, 'NEW RESULT');
             this.setState({ tensorProbabilities: newResult });
 
             console.log('THIS STATE', this.state.tensorProbabilities);
@@ -303,15 +277,9 @@ class Tensor extends Component {
             <div>
               <div>
                 <div className="userInput">
-                  {/* <img src="https://i.imgur.com/f85yLy6.jpg" />
-        <img src="https://i.imgur.com/adraueg.jpg" />
-        <img src="https://i.imgur.com/eGRmmHO.jpg" /> */}
                   <h1>
                     CPU: <img src={this.state.cpuImg} />
                   </h1>
-                  {/* <button id="1,0,0">ROCK</button>
-        <button id="0,1,0">PAPER</button>
-        <button id="0,0,1">SCISSORS</button> */}
                   <h1>
                     USER: <img src={this.state.userImg} />
                   </h1>
@@ -344,7 +312,6 @@ class Tensor extends Component {
                   </button>
                 </div>
               </div>
-
               <div>
                 <div />
               </div>
@@ -353,7 +320,7 @@ class Tensor extends Component {
           <div className="tensorData">
             <p>CPU EPOCH: {this.state && this.state.tensor.epoch} </p>
             <p>CPU LOSS: {this.state && this.state.tensor.loss} </p>
-            <p>
+            {/* <p>
               ROCK %:{' '}
               {this.state.tensorProbabilities &&
                 (this.state.tensorProbabilities[0] + '').slice(0, 5)}
@@ -365,14 +332,21 @@ class Tensor extends Component {
               SCISSORS%:{' '}
               {this.state.tensorProbabilities &&
                 (this.state.tensorProbabilities[2] + '').slice(0, 5)}
+            </p> */}
+            <p>
+              ROCK %: {allResults[0] && (allResults[0] + '').slice(0, 5)}
+              <br />
+              PAPER %: {allResults[1] && (allResults[1] + '').slice(0, 5)}
+              <br />
+              SCISSORS%: {allResults && (allResults[2] + '').slice(0, 5)}
             </p>
           </div>
           <div>
             <br />
-            <button onClick={() => this.startTraining()}>START TRAINING</button>
           </div>
         </div>
         <LossGraph loss={this.state.tensor.loss} />
+        <PredictionGraph allResults={allResults} />
       </div>
     );
   }
