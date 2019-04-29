@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+var value = 0.23;
 export default class LossGraph extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      data: [0.2, 0.5, 0.3, 0.8, 0.1, 0.5, 0.2, 0.5, 0.3, 0.8, 0.1, 0.5],
+    };
     this.createGraph.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.createGraph();
+  }
 
   componentWillUpdate() {}
 
-  componentWillReceiveProps() {}
+  componentWillReceiveProps() {
+    value = this.props.loss;
+    console.log(value);
+  }
 
   createGraph() {
-    var n = 40,
-      random = d3.randomNormal(0, 0.2),
-      data = d3.range(n).map(random);
+    console.log(this.state.data, 'THIS DOT STATE');
+    var n = 40;
+    var random = d3.randomNormal(0, 0.2);
+    var data = this.state.data;
+    console.log(data, 'random');
+    // data = [1, 2, 4];
     var svg = d3.select('svg'),
       margin = { top: 20, right: 20, bottom: 20, left: 40 },
       width = +svg.attr('width') - margin.left - margin.right,
@@ -64,7 +76,7 @@ export default class LossGraph extends Component {
       .on('start', tick);
     function tick() {
       // Push a new data point onto the back.
-      data.push(1);
+      data.push(value);
       // Redraw the line.
       d3.select(this)
         .attr('d', line)
@@ -79,12 +91,27 @@ export default class LossGraph extends Component {
     }
   }
 
+  // tick(value) {
+  //   // Push a new data point onto the back.
+  //   data.push(1);
+  //   // Redraw the line.
+  //   d3.select(this)
+  //     .attr("d", line)
+  //     .attr("transform", null);
+  //   // Slide it to the left.
+  //   d3.active(this)
+  //     .attr("transform", "translate(" + x(-1) + ",0)")
+  //     .transition();
+  //   //.on('start', tick);
+  //   // Pop the old data point off the front.
+  //   data.shift();
+  // }
+
   render() {
     // this.props.loss && this.createGraph();
     return (
       <div>
         <svg width="960" height="500" />;
-        <button onClick={() => this.createGraph()} />
       </div>
     );
   }
