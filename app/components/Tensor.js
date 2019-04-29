@@ -43,18 +43,19 @@ class Tensor extends Component {
   play(input) {
     if (!model) this.startTraining();
 
-    let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
-    allResults = results.dataSync();
-    console.log("fasdfasdfasdfasdfasdf", allResults);
-    let argMax = results.argMax(1);
-    index = argMax.dataSync()[0];
     let cpu = this.cpuPlay();
     let game = input.concat(cpu);
     let result = this.calcWin(game);
     let lastGameResult = game;
     lastGameResult.push(result);
     console.log(game, "GAMEEEEEEEE");
+
     this.setState({ lastGameResult: lastGameResult });
+    let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
+    allResults = results.dataSync();
+    console.log("fasdfasdfasdfasdfasdf", allResults);
+    let argMax = results.argMax(1);
+    index = argMax.dataSync()[0];
     let newUser = this.state.user;
     let newCpu = this.state.cpu;
     let newWl = this.state.wl;
@@ -220,7 +221,7 @@ class Tensor extends Component {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.2,
-        epochs: 2,
+        epochs: 5,
         callbacks: {
           onTrainBegin: () => {
             console.log("starting...");
