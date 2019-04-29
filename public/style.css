@@ -39,29 +39,65 @@ a {
 .sample {
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-between;
-}
-
-.tps {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.score {
-  margin: 25px;
-}
-
-.userInput {
-  margin: 25px;
-}
-
-.tensorData {
-  margin: 25px;
+  justify-content: space-around;
 }
 
 .line {
   fill: none;
   stroke: #000;
   stroke-width: 1.5px;
+}
+/* .tps {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+} */
+
+.sample {
+  border: 2px solid black;
+  box-shadow: 1px 1px 1px black;
+  background-color: rgba(255, 172, 172, 0.808);
+}
+
+.score {
+  margin: 25px;
+  border: 2px solid black;
+  box-shadow: 1px 1px 1px black;
+  background-color: rgba(255, 255, 255, 0.808);
+  padding: 15px;
+}
+
+.userInput {
+  text-align: center;
+  margin: 25px;
+  padding: 15px;
+  border: 2px solid black;
+  height: 341px;
+  box-shadow: 1px 1px 1px black;
+  background-color: rgba(255, 255, 255, 0.808);
+}
+
+.tensorData {
+  padding: 15px;
+
+  margin: 25px;
+  border: 2px solid black;
+  box-shadow: 1px 1px 1px black;
+  background-color: rgba(255, 255, 255, 0.808);
+}
+
+.Graphs {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  border: 2px solid black;
+  box-shadow: 1px 1px 1px black;
+  background-color: rgba(103, 212, 255, 0.808);
+}
+
+button {
+  width: 300px;
+  height: 40px;
+  border: 2px solid black;
+  box-shadow: 1px 1px 1px black;
 }

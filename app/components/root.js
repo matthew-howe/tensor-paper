@@ -13,12 +13,6 @@ export default class Root extends Component {
   render() {
     return (
       <div>
-        <nav>
-          <NavLink to="/">HOME </NavLink>
-          <NavLink to="/tensor"> TENSOR </NavLink>
-          <NavLink to="/about"> ABOUT </NavLink>
-        </nav>
-
         <main>
           <h1>Welcome to Tensor Paper Scissors!</h1>
           <Switch>
