@@ -246,7 +246,7 @@ class Tensor extends Component {
             // newResult = results.dataSync();
             // newResult = newResult.map(Number);
 
-            this.setState({ tensorProbabilities: newResult });
+            // this.setState({ tensorProbabilities: newResult });
 
             console.log('THIS STATE', this.state.tensorProbabilities);
             // const prediction = model.predict(tf.randomNormal([null, 7]));
@@ -260,11 +260,43 @@ class Tensor extends Component {
   }
   render() {
     console.log(this.props, 'PROPS HERE', this.state, 'STATE HERE');
+
+    let localWins = this.state.wl.filter(el => el === -1);
+    let localTies = this.state.wl.filter(el => el === 0);
+    let localTotalGames = this.state.wl.length - (localTies || 0);
+    console.log('local winrate', localWins, localTies, localTotalGames);
+    let localWinrate = localWins.length / localTotalGames;
+    let totalGames;
+    let winStatus;
+    let wins;
+    let ties;
+    let winrate;
+    if (this.props.dataSet.length) {
+      totalGames = this.props.dataSet.length;
+      winStatus = this.props.dataSet
+        .map(el => el.cpuWinStatus)
+        .reduce((acc, cur) => acc + cur);
+      wins = this.props.dataSet.filter(el => {
+        return el.cpuWinStatus === 1;
+      });
+      ties = this.props.dataSet.filter(el => {
+        return el.cpuWinStatus === 0;
+      });
+      totalGames = totalGames - ties.length;
+      winrate = wins.length / totalGames;
+      console.log(winrate, 'winrate');
+      console.log(totalGames, wins, 'games and winstatus');
+    }
+
     return (
       <div>
         <div className="sample">
           <div className="score">
             SCOREBOARD: <br />
+            CPU WINRATE: {winrate && winrate}
+            <br />
+            USER WINRATE: {localWinrate && localWinrate}
+            <br />
             {this.state.results &&
               this.state.results.map((el, idx) => (
                 <div>
