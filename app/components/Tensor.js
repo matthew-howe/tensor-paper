@@ -217,7 +217,7 @@ class Tensor extends Component {
       await model.fit(xs, ys, {
         shuffle: true,
         validationSplit: 0.1,
-        epochs: 25,
+        epochs: 2,
         callbacks: {
           onTrainBegin: () => {
             console.log('starting...');
