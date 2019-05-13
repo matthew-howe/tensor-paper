@@ -220,8 +220,9 @@ class Tensor extends Component {
     const train = async () => {
       await model.fit(xs, ys, {
         shuffle: true,
-        validationSplit: 0.2,
-        epochs: 5,
+        validationSplit: 0.1,
+        epochs: 2,
+
         callbacks: {
           onTrainBegin: () => {
             console.log("starting...");
@@ -377,7 +378,4 @@ const mapDispatchToProps = dispatch => ({
   getRounds: () => dispatch(fetchDataThunk())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Tensor);
+export default connect(mapStateToProps, mapDispatchToProps)(Tensor);
