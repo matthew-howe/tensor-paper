@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchDataThunk, postRoundsThunk } from '../reducers/index';
-import LossGraph from './LossGraph';
-import PredictionGraph from './PredictionGraph';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchDataThunk, postRoundsThunk } from "../reducers/index";
+import LossGraph from "./LossGraph";
+import PredictionGraph from "./PredictionGraph";
 
 let index = 0;
 let model = null;
@@ -14,7 +14,7 @@ class Tensor extends Component {
       tensor: {
         loss: 0,
         epoch: 0,
-        model: null,
+        model: null
       },
       user: [],
       cpu: [],
@@ -24,7 +24,7 @@ class Tensor extends Component {
       gameNum: 0,
       results: [],
       batchComplete: false,
-      lastGameResult: [0, 0, 1, 0, 0, 1, 1],
+      lastGameResult: [0, 0, 0, 0, 0, 0, 0]
     };
   }
 
@@ -40,19 +40,22 @@ class Tensor extends Component {
     this.setState({ userImg: img });
   }
 
-  async play(input) {
-    if (!model) await this.startTraining();
-    let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
-    allResults = results.dataSync();
-    console.log('fasdfasdfasdfasdfasdf', allResults);
-    let argMax = results.argMax(1);
-    index = argMax.dataSync()[0];
+  play(input) {
+    if (!model) this.startTraining();
+
     let cpu = this.cpuPlay();
     let game = input.concat(cpu);
     let result = this.calcWin(game);
     let lastGameResult = game;
     lastGameResult.push(result);
+    console.log(game, "GAMEEEEEEEE");
+
     this.setState({ lastGameResult: lastGameResult });
+    let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
+    allResults = results.dataSync();
+    console.log("fasdfasdfasdfasdfasdf", allResults);
+    let argMax = results.argMax(1);
+    index = argMax.dataSync()[0];
     let newUser = this.state.user;
     let newCpu = this.state.cpu;
     let newWl = this.state.wl;
@@ -63,31 +66,31 @@ class Tensor extends Component {
     let cpuImage;
     let typebtn = typeof cpuBtn;
     switch (cpuBtn) {
-      case '1,0,0':
-        cpuImage = 'https://i.imgur.com/adraueg.jpg';
+      case "1,0,0":
+        cpuImage = "https://i.imgur.com/adraueg.jpg";
         break;
-      case '0,1,0':
-        cpuImage = 'https://i.imgur.com/f85yLy6.jpg';
+      case "0,1,0":
+        cpuImage = "https://i.imgur.com/f85yLy6.jpg";
         break;
-      case '0,0,1':
-        cpuImage = 'https://i.imgur.com/eGRmmHO.jpg';
+      case "0,0,1":
+        cpuImage = "https://i.imgur.com/eGRmmHO.jpg";
         break;
       default:
-        console.log('switch fn error');
+        console.log("switch fn error");
     }
     let gameResult;
     switch (result) {
       case 1:
-        gameResult = 'Lose';
+        gameResult = "Lose";
         break;
       case 0:
-        gameResult = 'Tie';
+        gameResult = "Tie";
         break;
       case -1:
-        gameResult = 'Win';
+        gameResult = "Win";
         break;
       default:
-        console.log('switch fn error');
+        console.log("switch fn error");
     }
     let setOver = this.calcSetOver(newWl);
     let newResults = this.state.results;
@@ -99,7 +102,7 @@ class Tensor extends Component {
         wl: newWl,
         cpuImg: cpuImage,
         results: newResults,
-        batchComplete: setOver,
+        batchComplete: setOver
       };
     });
     if (setOver) {
@@ -128,7 +131,7 @@ class Tensor extends Component {
           userImg: null,
           gameNum: 0,
           results: [],
-          batchComplete: false,
+          batchComplete: false
         };
       });
       this.startTraining();
@@ -137,6 +140,7 @@ class Tensor extends Component {
 
   cpuPlay() {
     let cpu = [[0, 1, 0], [0, 0, 1], [1, 0, 0]][index];
+    console.log("CPU MOVE", cpu, "INDEX: ", index);
     //counter to predicted user throw
     return cpu;
   }
@@ -149,7 +153,7 @@ class Tensor extends Component {
       [0, 0, 1, 0, 1, 0], // scissors vs paper
       [1, 0, 0, 0, 1, 0], // LOSSES  rock vs paper
       [0, 1, 0, 0, 0, 1], // paper vs scissors
-      [0, 0, 1, 1, 0, 0], // scissors vs rock
+      [0, 0, 1, 1, 0, 0] // scissors vs rock
     ];
 
     let result = 0;
@@ -193,22 +197,22 @@ class Tensor extends Component {
       const hidden = tf.layers.dense({
         units: 16,
         inputShape: [7],
-        activation: 'sigmoid',
+        activation: "sigmoid"
       });
       const output = tf.layers.dense({
         units: 3,
-        activation: 'softmax',
+        activation: "softmax"
       });
       model.add(hidden);
       model.add(output);
 
-      const LEARNING_RATE = 0.25;
+      const LEARNING_RATE = 0.2;
       const optimizer = tf.train.sgd(LEARNING_RATE);
 
       model.compile({
         optimizer: optimizer,
-        loss: 'categoricalCrossentropy',
-        metrics: ['accuracy'],
+        loss: "categoricalCrossentropy",
+        metrics: ["accuracy"]
       });
       train();
     }
@@ -218,13 +222,12 @@ class Tensor extends Component {
         shuffle: true,
         validationSplit: 0.1,
         epochs: 2,
+
         callbacks: {
           onTrainBegin: () => {
-            console.log('starting...');
+            console.log("starting...");
           },
           onEpochEnd: (epoch, logs) => {
-            console.log(epoch);
-            console.log(logs.loss.toFixed(5));
             let input = tf.tensor2d([this.state.lastGameResult]);
             let results = model.predict(input);
             let newResult;
@@ -237,7 +240,7 @@ class Tensor extends Component {
             await tf.nextFrame();
           },
           onTrainEnd: () => {
-            console.log('finished');
+            console.log("finished");
             // let input = tf.tensor2d([this.state.lastGameResult]);
             // let results = model.predict(input);
             // results.print();
@@ -248,23 +251,23 @@ class Tensor extends Component {
 
             // this.setState({ tensorProbabilities: newResult });
 
-            console.log('THIS STATE', this.state.tensorProbabilities);
+            // console.log("THIS STATE", this.state.tensorProbabilities);
             // const prediction = model.predict(tf.randomNormal([null, 7]));
             // prediction.print();
-          },
-        },
+          }
+        }
       });
     };
     setup();
     // train();
   }
   render() {
-    console.log(this.props, 'PROPS HERE', this.state, 'STATE HERE');
-
+    // console.log(allResults && allResults + "IN THE RENDER");
+    let localTies = [0];
     let localWins = this.state.wl.filter(el => el === -1);
-    let localTies = this.state.wl.filter(el => el === 0);
-    let localTotalGames = this.state.wl.length - (localTies || 0);
-    console.log('local winrate', localWins, localTies, localTotalGames);
+    localTies = this.state.wl.filter(el => el === 0);
+    let localTotalGames = this.state.wl.length - localTies.length;
+    // console.log("local winrate", localWins, localTies, localTotalGames);
     let localWinrate = localWins.length / localTotalGames;
     let totalGames;
     let winStatus;
@@ -284,8 +287,8 @@ class Tensor extends Component {
       });
       totalGames = totalGames - ties.length;
       winrate = wins.length / totalGames;
-      console.log(winrate, 'winrate');
-      console.log(totalGames, wins, 'games and winstatus');
+      // console.log(winrate, "winrate");
+      // console.log(totalGames, wins, "games and winstatus");
     }
 
     return (
@@ -300,92 +303,71 @@ class Tensor extends Component {
             {this.state.results &&
               this.state.results.map((el, idx) => (
                 <div>
-                  {' '}
-                  GAME {idx + 1}: {el}{' '}
+                  {" "}
+                  GAME {idx + 1}: {el}{" "}
                 </div>
               ))}
           </div>
-          <div>
-            <div>
-              <div>
-                <div className="userInput">
-                  <h1>
-                    CPU: <img src={this.state.cpuImg} />
-                  </h1>
-                  <h1>
-                    USER: <img src={this.state.userImg} />
-                  </h1>
-                  <button
-                    id="prock"
-                    onClick={() => {
-                      this.play([1, 0, 0]);
-                      this.userButton('https://i.imgur.com/adraueg.jpg');
-                    }}
-                  >
-                    ROCK
-                  </button>
-                  <button
-                    id="ppaper"
-                    onClick={() => {
-                      this.play([0, 1, 0]);
-                      this.userButton('https://i.imgur.com/f85yLy6.jpg');
-                    }}
-                  >
-                    PAPER
-                  </button>
-                  <button
-                    id="pscissors"
-                    onClick={() => {
-                      this.play([0, 0, 1]);
-                      this.userButton('https://i.imgur.com/eGRmmHO.jpg ');
-                    }}
-                  >
-                    SCISSORS
-                  </button>
-                </div>
-              </div>
-              <div>
-                <div />
-              </div>
-            </div>
+
+          <div className="userInput">
+            <h1>
+              CPU: <img src={this.state.cpuImg} />
+            </h1>
+            <h1>
+              USER: <img src={this.state.userImg} />
+            </h1>
+            <button
+              id="prock"
+              onClick={() => {
+                this.play([1, 0, 0]);
+                this.userButton("https://i.imgur.com/adraueg.jpg");
+              }}
+            >
+              ROCK
+            </button>
+            <button
+              id="ppaper"
+              onClick={() => {
+                this.play([0, 1, 0]);
+                this.userButton("https://i.imgur.com/f85yLy6.jpg");
+              }}
+            >
+              PAPER
+            </button>
+            <button
+              id="pscissors"
+              onClick={() => {
+                this.play([0, 0, 1]);
+                this.userButton("https://i.imgur.com/eGRmmHO.jpg ");
+              }}
+            >
+              SCISSORS
+            </button>
           </div>
           <div className="tensorData">
             <p>CPU EPOCH: {this.state && this.state.tensor.epoch} </p>
             <p>CPU LOSS: {this.state && this.state.tensor.loss} </p>
-            {/* <p>
-              ROCK %:{' '}
-              {this.state.tensorProbabilities &&
-                (this.state.tensorProbabilities[0] + '').slice(0, 5)}
-              <br />
-              PAPER %:{' '}
-              {this.state.tensorProbabilities &&
-                (this.state.tensorProbabilities[1] + '').slice(0, 5)}
-              <br />
-              SCISSORS%:{' '}
-              {this.state.tensorProbabilities &&
-                (this.state.tensorProbabilities[2] + '').slice(0, 5)}
-            </p> */}
+
             <p>
-              ROCK %: {allResults[0] && (allResults[0] + '').slice(0, 5)}
+              ROCK %: {allResults[0] && (allResults[0] + "").slice(0, 5)}
               <br />
-              PAPER %: {allResults[1] && (allResults[1] + '').slice(0, 5)}
+              PAPER %: {allResults[1] && (allResults[1] + "").slice(0, 5)}
               <br />
-              SCISSORS%: {allResults && (allResults[2] + '').slice(0, 5)}
+              SCISSORS%: {allResults && (allResults[2] + "").slice(0, 5)}
             </p>
           </div>
-          <div>
-            <br />
-          </div>
         </div>
-        <LossGraph loss={this.state.tensor.loss} />
-        <PredictionGraph allResults={allResults} />
+        <div className="Graphs">
+          <LossGraph loss={this.state.tensor.loss} />
+          <PredictionGraph allResults={allResults} />
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  dataSet: state.dataSet,
+  dataSet: state.dataSet
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -393,7 +375,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchDataThunk());
   },
   postRounds: rounds => dispatch(postRoundsThunk(rounds)),
-  getRounds: () => dispatch(fetchDataThunk()),
+  getRounds: () => dispatch(fetchDataThunk())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tensor);
