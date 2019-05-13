@@ -396,7 +396,4 @@ const mapDispatchToProps = dispatch => ({
   getRounds: () => dispatch(fetchDataThunk()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Tensor);
+export default connect(mapStateToProps, mapDispatchToProps)(Tensor);
