@@ -24,7 +24,7 @@ class Tensor extends Component {
       gameNum: 0,
       results: [],
       batchComplete: false,
-      lastGameResult: [0, 0, 1, 0, 0, 1, 1],
+      lastGameResult: [0, 0, 0, 0, 0, 0, 0],
     };
   }
 
@@ -40,19 +40,22 @@ class Tensor extends Component {
     this.setState({ userImg: img });
   }
 
-  async play(input) {
-    if (!model) await this.startTraining();
-    let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
-    allResults = results.dataSync();
-    console.log('fasdfasdfasdfasdfasdf', allResults);
-    let argMax = results.argMax(1);
-    index = argMax.dataSync()[0];
+  play(input) {
+    if (!model) this.startTraining();
+
     let cpu = this.cpuPlay();
     let game = input.concat(cpu);
     let result = this.calcWin(game);
     let lastGameResult = game;
     lastGameResult.push(result);
+    console.log(game, 'GAMEEEEEEEE');
+
     this.setState({ lastGameResult: lastGameResult });
+    let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
+    allResults = results.dataSync();
+    console.log('fasdfasdfasdfasdfasdf', allResults);
+    let argMax = results.argMax(1);
+    index = argMax.dataSync()[0];
     let newUser = this.state.user;
     let newCpu = this.state.cpu;
     let newWl = this.state.wl;
@@ -137,6 +140,7 @@ class Tensor extends Component {
 
   cpuPlay() {
     let cpu = [[0, 1, 0], [0, 0, 1], [1, 0, 0]][index];
+    console.log('CPU MOVE', cpu, 'INDEX: ', index);
     //counter to predicted user throw
     return cpu;
   }
@@ -202,7 +206,7 @@ class Tensor extends Component {
       model.add(hidden);
       model.add(output);
 
-      const LEARNING_RATE = 0.25;
+      const LEARNING_RATE = 0.2;
       const optimizer = tf.train.sgd(LEARNING_RATE);
 
       model.compile({
@@ -223,8 +227,6 @@ class Tensor extends Component {
             console.log('starting...');
           },
           onEpochEnd: (epoch, logs) => {
-            console.log(epoch);
-            console.log(logs.loss.toFixed(5));
             let input = tf.tensor2d([this.state.lastGameResult]);
             let results = model.predict(input);
             let newResult;
@@ -248,7 +250,7 @@ class Tensor extends Component {
 
             // this.setState({ tensorProbabilities: newResult });
 
-            console.log('THIS STATE', this.state.tensorProbabilities);
+            // console.log("THIS STATE", this.state.tensorProbabilities);
             // const prediction = model.predict(tf.randomNormal([null, 7]));
             // prediction.print();
           },
@@ -259,12 +261,12 @@ class Tensor extends Component {
     // train();
   }
   render() {
-    console.log(this.props, 'PROPS HERE', this.state, 'STATE HERE');
-
+    // console.log(allResults && allResults + "IN THE RENDER");
+    let localTies = [0];
     let localWins = this.state.wl.filter(el => el === -1);
-    let localTies = this.state.wl.filter(el => el === 0);
-    let localTotalGames = this.state.wl.length - (localTies || 0);
-    console.log('local winrate', localWins, localTies, localTotalGames);
+    localTies = this.state.wl.filter(el => el === 0);
+    let localTotalGames = this.state.wl.length - localTies.length;
+    // console.log("local winrate", localWins, localTies, localTotalGames);
     let localWinrate = localWins.length / localTotalGames;
     let totalGames;
     let winStatus;
@@ -284,8 +286,8 @@ class Tensor extends Component {
       });
       totalGames = totalGames - ties.length;
       winrate = wins.length / totalGames;
-      console.log(winrate, 'winrate');
-      console.log(totalGames, wins, 'games and winstatus');
+      // console.log(winrate, "winrate");
+      // console.log(totalGames, wins, "games and winstatus");
     }
 
     return (
@@ -305,66 +307,46 @@ class Tensor extends Component {
                 </div>
               ))}
           </div>
-          <div>
-            <div>
-              <div>
-                <div className="userInput">
-                  <h1>
-                    CPU: <img src={this.state.cpuImg} />
-                  </h1>
-                  <h1>
-                    USER: <img src={this.state.userImg} />
-                  </h1>
-                  <button
-                    id="prock"
-                    onClick={() => {
-                      this.play([1, 0, 0]);
-                      this.userButton('https://i.imgur.com/adraueg.jpg');
-                    }}
-                  >
-                    ROCK
-                  </button>
-                  <button
-                    id="ppaper"
-                    onClick={() => {
-                      this.play([0, 1, 0]);
-                      this.userButton('https://i.imgur.com/f85yLy6.jpg');
-                    }}
-                  >
-                    PAPER
-                  </button>
-                  <button
-                    id="pscissors"
-                    onClick={() => {
-                      this.play([0, 0, 1]);
-                      this.userButton('https://i.imgur.com/eGRmmHO.jpg ');
-                    }}
-                  >
-                    SCISSORS
-                  </button>
-                </div>
-              </div>
-              <div>
-                <div />
-              </div>
-            </div>
+
+          <div className="userInput">
+            <h1>
+              CPU: <img src={this.state.cpuImg} />
+            </h1>
+            <h1>
+              USER: <img src={this.state.userImg} />
+            </h1>
+            <button
+              id="prock"
+              onClick={() => {
+                this.play([1, 0, 0]);
+                this.userButton('https://i.imgur.com/adraueg.jpg');
+              }}
+            >
+              ROCK
+            </button>
+            <button
+              id="ppaper"
+              onClick={() => {
+                this.play([0, 1, 0]);
+                this.userButton('https://i.imgur.com/f85yLy6.jpg');
+              }}
+            >
+              PAPER
+            </button>
+            <button
+              id="pscissors"
+              onClick={() => {
+                this.play([0, 0, 1]);
+                this.userButton('https://i.imgur.com/eGRmmHO.jpg ');
+              }}
+            >
+              SCISSORS
+            </button>
           </div>
           <div className="tensorData">
             <p>CPU EPOCH: {this.state && this.state.tensor.epoch} </p>
             <p>CPU LOSS: {this.state && this.state.tensor.loss} </p>
-            {/* <p>
-              ROCK %:{' '}
-              {this.state.tensorProbabilities &&
-                (this.state.tensorProbabilities[0] + '').slice(0, 5)}
-              <br />
-              PAPER %:{' '}
-              {this.state.tensorProbabilities &&
-                (this.state.tensorProbabilities[1] + '').slice(0, 5)}
-              <br />
-              SCISSORS%:{' '}
-              {this.state.tensorProbabilities &&
-                (this.state.tensorProbabilities[2] + '').slice(0, 5)}
-            </p> */}
+
             <p>
               ROCK %: {allResults[0] && (allResults[0] + '').slice(0, 5)}
               <br />
@@ -373,12 +355,11 @@ class Tensor extends Component {
               SCISSORS%: {allResults && (allResults[2] + '').slice(0, 5)}
             </p>
           </div>
-          <div>
-            <br />
-          </div>
         </div>
-        <LossGraph loss={this.state.tensor.loss} />
-        <PredictionGraph allResults={allResults} />
+        <div className="Graphs">
+          <LossGraph loss={this.state.tensor.loss} />
+          <PredictionGraph allResults={allResults} />
+        </div>
       </div>
     );
   }

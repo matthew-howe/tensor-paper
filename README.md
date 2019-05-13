@@ -1,5 +1,3 @@
-### Welcome to Tensor, Paper, Scissors
-
 ![ScreenShot](https://raw.githubusercontent.com/thetensorgroup/tensorpaperscissors/master/app/components/images/main.png)
 
 Play against a simple AI in Rock Paper Scissors that progressively learns.
@@ -18,7 +16,7 @@ https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
 
 ### SETUP for cloning to run locally
 
--git clone https://github.com/thetensorgroup/tensorpaperscissors.git
--createdb tensorps (Postgres database requires db named 'tensorps')
--npm install
--npm run start
+• git clone https://github.com/thetensorgroup/tensorpaperscissors.git
+• createdb tensorps (Postgres database requires db named 'tensorps')
+• npm install
+• npm run start
