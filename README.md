@@ -16,7 +16,7 @@ https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
 
 ### SETUP for cloning to run locally
 
-• git clone https://github.com/thetensorgroup/tensorpaperscissors.git
-• createdb tensorps (Postgres database requires db named 'tensorps')
-• npm install
+• git clone https://github.com/thetensorgroup/tensorpaperscissors.git  
+• createdb tensorps (Postgres database requires db named 'tensorps')  
+• npm install  
 • npm run start
