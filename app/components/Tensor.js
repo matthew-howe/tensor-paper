@@ -53,7 +53,9 @@ class Tensor extends Component {
     this.setState({ lastGameResult: lastGameResult });
     let results = model.predict(tf.tensor2d([this.state.lastGameResult]));
     allResults = results.dataSync();
+
     console.log("fasdfasdfasdfasdfasdf", allResults);
+
     let argMax = results.argMax(1);
     index = argMax.dataSync()[0];
     let newUser = this.state.user;
@@ -320,7 +322,9 @@ class Tensor extends Component {
               id="prock"
               onClick={() => {
                 this.play([1, 0, 0]);
+
                 this.userButton("https://i.imgur.com/adraueg.jpg");
+
               }}
             >
               ROCK
@@ -329,7 +333,10 @@ class Tensor extends Component {
               id="ppaper"
               onClick={() => {
                 this.play([0, 1, 0]);
+
+
                 this.userButton("https://i.imgur.com/f85yLy6.jpg");
+
               }}
             >
               PAPER
@@ -338,7 +345,9 @@ class Tensor extends Component {
               id="pscissors"
               onClick={() => {
                 this.play([0, 0, 1]);
+
                 this.userButton("https://i.imgur.com/eGRmmHO.jpg ");
+
               }}
             >
               SCISSORS
