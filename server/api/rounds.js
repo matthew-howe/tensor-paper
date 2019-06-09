@@ -1,9 +1,9 @@
-const round = require('../db/models/round');
+const Round = require('../db/models/round');
 const router = require('express').Router();
 
 router.post('/', async (req, res, next) => {
   try {
-    const newRound = await round.create(req.body);
+    const newRound = await Round.create(req.body);
     res.json(newRound);
   } catch (error) {
     next(error);
@@ -12,7 +12,7 @@ router.post('/', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const data = await round.findAll();
+    const data = await Round.findAll();
     if (data) {
       res.json(data);
     } else {
