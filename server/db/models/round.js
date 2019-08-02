@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
-const db = require("../database");
+const Sequelize = require('sequelize')
+const db = require('../db')
 
-const round = db.define("round", {
+const round = db.define('round', {
   userThrow: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
     allowNull: true
@@ -13,6 +13,6 @@ const round = db.define("round", {
   cpuWinStatus: {
     type: Sequelize.INTEGER
   }
-});
+})
 
-module.exports = round;
+module.exports = round

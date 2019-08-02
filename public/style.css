@@ -1,7 +1,221 @@
-/*
- * Hi! I'm your stylesheet! I've got some sensible defaults here,
- * but feel free to change me to your heart's content!
- */
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.email {
+  font-family: arial;
+  font-size: 64px;
+}
+
+.skills {
+  padding-left: 10%;
+  text-align: left;
+}
+
+.hdiv {
+  padding-top: 1em;
+}
+
+img {
+}
+
+.header {
+  font-size: 42px;
+  color: black;
+  text-decoration: none;
+  font-family: 'Archivo Black', sans-serif;
+  flex-wrap: wrap;
+  text-align: right;
+  margin-right: 2em;
+  padding-left: 1em;
+}
+
+.projects {
+  font-size: 14px;
+  padding-left: 17%;
+  width: 100%;
+}
+
+.projects img {
+  display: flex;
+  height: 150px;
+  flex-wrap: wrap;
+  padding-bottom: 1em;
+}
+
+.projtitle {
+  color: blue;
+  padding-top: 1em;
+  font-size: 33px;
+}
+
+.footerinforight {
+  text-align: right;
+}
+
+.footercont {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
+  padding: 1em;
+}
+
+.footerme {
+  display: flex;
+  flex-direction: row;
+}
+
+.footerme div {
+  padding: 0em 1em 0em 1em;
+}
+
+nav {
+  width: 100%;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.me {
+  display: flex;
+  flex-direction: row;
+  margin-right: 2em;
+}
+
+.me div {
+  padding: 1em;
+}
+
+.top-view {
+  height: 100vh;
+}
+
+.summary {
+  display: flex;
+  justify-content: center;
+}
+
+.bio {
+  text-align: center;
+  padding-top: 6em;
+  padding-left: 2em;
+}
+
+.project {
+  height: 100vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  align-items: stretch;
+  width: 50%;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 1050px) {
+  .projects {
+  }
+
+  .project {
+    flex-direction: row;
+    justify-content: unset;
+    align-items: center;
+    align-items: stretch;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .navbar {
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .project {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: unset;
+
+    align-items: center;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .me {
+    align-self: center;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .header {
+    font-size: 32px;
+  }
+
+  .summary {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .projects {
+    padding-left: 0%;
+  }
+
+  .summary img {
+    align-self: center;
+    height: 250px;
+    width: 250px;
+  }
+
+  .me {
+    align-self: center;
+  }
+
+  .footerinforight {
+    text-align: center;
+  }
+
+  .footercont {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: black;
+    text-align: center;
+
+    color: white;
+    padding: 1em;
+  }
+
+  .footerme {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    padding: 1em;
+  }
+
+  .footerme div {
+    padding: 0em 1em 0em 1em;
+  }
+}
+
+.project div {
+  color: black;
+  text-decoration: none;
+  font-size: 22px;
+  text-align: left;
+}
+
+.project div p {
+  font-size: 14px;
+}
+
+.project img {
+  padding: 1em;
+}
 
 * {
   box-sizing: border-box;
@@ -47,11 +261,6 @@ a {
   stroke: #000;
   stroke-width: 1.5px;
 }
-/* .tps {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-} */
 
 .sample {
   border: 2px solid black;
