@@ -1,4 +1,4 @@
-![ScreenShot](https://raw.githubusercontent.com/thetensorgroup/tensorpaperscissors/master/app/components/images/main.png)
+## DEMO: http://tensorpaper.herokuapp.com
 
 Play against a simple AI in Rock Paper Scissors that progressively learns.
 We are utilizing tensorflow.js, and outputting graphs in D3.js.
@@ -12,7 +12,6 @@ Our input and output tensors are One-hot-encoded in a PostgreSQL database, which
 to continually output new tensor probabilities.
 
 https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
-![Perceptron](https://raw.githubusercontent.com/thetensorgroup/tensorpaperscissors/master/app/components/images/neurons.png)
 
 ### SETUP for cloning to run locally
 
