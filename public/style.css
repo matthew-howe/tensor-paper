@@ -263,9 +263,9 @@ a {
 }
 
 .sample {
-  border: 2px solid black;
-  box-shadow: 1px 1px 1px black;
-  background-color: rgba(255, 172, 172, 0.808);
+  /* border: 2px solid black; */
+  /* box-shadow: 1px 1px 1px black; */
+  /* background-color: rgba(255, 172, 172, 0.808); */
 }
 
 .score {
@@ -299,9 +299,9 @@ a {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  border: 2px solid black;
+  border: 2px solid grey;
   box-shadow: 1px 1px 1px black;
-  background-color: rgba(103, 212, 255, 0.808);
+  background-color: #f7f7f7;
 }
 
 button {

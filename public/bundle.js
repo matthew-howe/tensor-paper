@@ -319,19 +319,19 @@ function (_Component) {
           data: {
             '0': this.props.allResults[0]
           },
-          color: 'red'
+          color: '#6AAAD6'
         }, {
-          name: 'Rock',
+          name: 'Paper',
           data: {
             '1': this.props.allResults[1]
           },
-          color: 'green'
+          color: '#173D4E'
         }, {
-          name: 'Rock',
+          name: 'Scissors',
           data: {
             '2': this.props.allResults[2]
           },
-          color: 'blue'
+          color: 'orange'
         }],
         height: 400,
         width: 600
@@ -72456,7 +72456,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
