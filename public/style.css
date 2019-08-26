@@ -254,6 +254,8 @@ a {
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
+  zoom: 0.8;
+  -moz-transform: scale(0.8);
 }
 
 .line {
@@ -263,14 +265,14 @@ a {
 }
 
 path {
-    fill: none;
-    stroke: #aaa;
-    stroke-width: 1px;
+  fill: none;
+  stroke: #aaa;
+  stroke-width: 1px;
 }
 
 .score {
-    width: 300px;
-    text-align: center;
+  width: 300px;
+  text-align: center;
   margin: 25px;
   border: 2px solid black;
   box-shadow: 1px 1px 1px black;
@@ -279,26 +281,26 @@ path {
 }
 
 .tensorData p {
-    text-align: center;
-    font-size: 18px;
+  text-align: center;
+  font-size: 18px;
 }
 
 .input-buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .hands {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .userInput {
-  display:flex;
+  display: flex;
   width: 500px;
-  flex-direction: row-reverse;  
+  flex-direction: row-reverse;
   justify-content: space-around;
   text-align: center;
   margin: 25px;
@@ -310,11 +312,11 @@ path {
 }
 
 .tensorData {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 15px;
-    width: 300px;
+  width: 300px;
   margin: 25px;
   border: 2px solid black;
   box-shadow: 1px 1px 1px black;
@@ -328,6 +330,8 @@ path {
   border: 2px solid grey;
   box-shadow: 1px 1px 1px black;
   background-color: #f7f7f7;
+  zoom: 0.8;
+  -moz-transform: scale(0.8);
 }
 
 button {
@@ -368,12 +372,12 @@ button {
 }
 
 .score-title {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .predictions-title {
-    text-align: center;
-    padding: 4px;
+  text-align: center;
+  padding: 4px;
 }
