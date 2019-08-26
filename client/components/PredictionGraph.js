@@ -9,6 +9,7 @@ export default class PredictionGraph extends Component {
   render() {
     return (
       <div>
+          <div className="predictions-title">Predictions</div>
         <BarChart
           data={[
             {

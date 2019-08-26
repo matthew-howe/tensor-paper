@@ -25,7 +25,6 @@ export default class LossGraph extends Component {
     var n = 13
     var random = d3.randomNormal(0, 0.2)
     var data = this.state.data
-    // data = [1, 2, 4];
     var svg = d3.select('svg'),
       margin = {top: 20, right: 20, bottom: 20, left: 40},
       width = +svg.attr('width') - margin.left - margin.right,
@@ -75,6 +74,12 @@ export default class LossGraph extends Component {
       .duration(500)
       .ease(d3.easeLinear)
       .on('start', tick)
+    g.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2) + 20)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "18px") 
+        .text("Loss");
     function tick() {
       // Push a new data point onto the back.
       data.push(value)
@@ -97,7 +102,7 @@ export default class LossGraph extends Component {
   render() {
     return (
       <div>
-        <svg width="700" height="400" />
+        <svg width="700" height="420" />
       </div>
     )
   }

@@ -268,12 +268,6 @@ path {
     stroke-width: 1px;
 }
 
-.sample {
-  /* border: 2px solid black; */
-  /* box-shadow: 1px 1px 1px black; */
-  /* background-color: rgba(255, 172, 172, 0.808); */
-}
-
 .score {
     width: 300px;
     text-align: center;
@@ -377,4 +371,9 @@ button {
     text-align: center;
     font-size: 22px;
     font-weight: bold;
+}
+
+.predictions-title {
+    text-align: center;
+    padding: 4px;
 }
