@@ -3,6 +3,17 @@ import {connect} from 'react-redux'
 import {fetchDataThunk, postRoundsThunk} from '../store/rootReducer'
 import LossGraph from './LossGraph'
 import PredictionGraph from './PredictionGraph'
+// import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button'
+
+// const useStyles = makeStyles(theme => ({
+//   button: {
+//     margin: theme.spacing(1),
+//   },
+//   input: {
+//     display: 'none',
+//   },
+// }));
 
 let index = 0
 let model = null
@@ -12,7 +23,7 @@ class Tensor extends Component {
     super()
     this.state = {
       tensor: {
-        loss: 0,
+        loss: 0.5,
         epoch: 0,
         model: null
       },
@@ -254,6 +265,7 @@ class Tensor extends Component {
     localTies = this.state.wl.filter(el => el === 0)
     let localTotalGames = this.state.wl.length - localTies.length
     let localWinrate = localWins.length / localTotalGames
+    if (isNaN(localWinrate)) localWinrate = ''
     let totalGames
     let winStatus
     let wins
@@ -285,7 +297,7 @@ class Tensor extends Component {
             <br />
             {this.state.results &&
               this.state.results.map((el, idx) => (
-                <div>
+                <div key={el}>
                   {' '}
                   GAME {idx + 1}: {el}{' '}
                 </div>
@@ -299,33 +311,39 @@ class Tensor extends Component {
             <h1>
               USER: <img src={this.state.userImg} />
             </h1>
-            <button
+            <Button
               id="prock"
               onClick={() => {
                 this.play([1, 0, 0])
                 this.userButton('https://i.imgur.com/adraueg.jpg')
               }}
+              variant="contained"
+              color="inherit"
             >
               ROCK
-            </button>
-            <button
+            </Button>
+            <Button
               id="ppaper"
               onClick={() => {
                 this.play([0, 1, 0])
                 this.userButton('https://i.imgur.com/f85yLy6.jpg')
               }}
+              variant="contained"
+              color="inherit"
             >
               PAPER
-            </button>
-            <button
+            </Button>
+            <Button
               id="pscissors"
               onClick={() => {
                 this.play([0, 0, 1])
                 this.userButton('https://i.imgur.com/eGRmmHO.jpg ')
               }}
+              variant="contained"
+              color="inherit"
             >
               SCISSORS
-            </button>
+            </Button>
           </div>
           <div className="tensorData">
             <p>LOSS: {this.state && this.state.tensor.loss} </p>

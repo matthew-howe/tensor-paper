@@ -262,6 +262,12 @@ a {
   stroke-width: 1.5px;
 }
 
+path {
+    fill: none;
+    stroke: #aaa;
+    stroke-width: 1px;
+}
+
 .sample {
   /* border: 2px solid black; */
   /* box-shadow: 1px 1px 1px black; */
@@ -305,7 +311,7 @@ a {
 }
 
 button {
-  width: 300px;
+  width: 150px;
   height: 40px;
   border: 2px solid black;
   box-shadow: 1px 1px 1px black;
