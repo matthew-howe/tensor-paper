@@ -1,4 +1,5 @@
 ## DEMO: http://tensorpaper.herokuapp.com
+## VIDEO: https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
 
 ![screenshot](https://i.imgur.com/yKXPCXz.png)
 
@@ -15,7 +16,6 @@ to continually output new tensor probabilities.
 
 ![tensors](https://github.com/matthew-howe/tensorpaperscissors/blob/037273acf5e587ab865a6eb9cb20cdd39b3b98ef/app/components/images/neurons.png)
 
-https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
 
 ### SETUP for cloning to run locally
 
