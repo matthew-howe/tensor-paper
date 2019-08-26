@@ -782,7 +782,7 @@ function (_Component) {
       });
       var localTotalGames = this.state.wl.length - localTies.length;
       var localWinrate = localWins.length / localTotalGames;
-      if (isNaN(localWinrate)) localWinrate = '';
+      if (isNaN(localWinrate)) localWinrate = 'No Matches Completed';
       var totalGames;
       var winStatus;
       var wins;
@@ -810,17 +810,23 @@ function (_Component) {
         className: "sample"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "score"
-      }, "SCOREBOARD: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "CPU WINRATE: ", winrate && winrate, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "USER WINRATE: ", localWinrate && localWinrate, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.state.results && this.state.results.map(function (el, idx) {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "score-title"
+      }, "BEST OF 9 ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), "CPU WINRATE: ", winrate && winrate.toFixed(2), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "USER WINRATE: ", localWinrate === 'No Matches Completed' ? 'Infinity' : localWinrate.toFixed(2), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.state.results && this.state.results.map(function (el, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: el
+          key: Math.random()
         }, ' ', "GAME ", idx + 1, ": ", el, ' ');
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "userInput"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "hands"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "CPU: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: this.state.cpuImg
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "USER: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: this.state.userImg
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-buttons"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
         id: "prock",
         onClick: function onClick() {
           _this3.play([1, 0, 0]);
@@ -829,7 +835,7 @@ function (_Component) {
         },
         variant: "contained",
         color: "inherit"
-      }, "ROCK"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }, "ROCK")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
         id: "ppaper",
         onClick: function onClick() {
           _this3.play([0, 1, 0]);
@@ -838,7 +844,7 @@ function (_Component) {
         },
         variant: "contained",
         color: "inherit"
-      }, "PAPER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }, "PAPER")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
         id: "pscissors",
         onClick: function onClick() {
           _this3.play([0, 0, 1]);
@@ -847,7 +853,7 @@ function (_Component) {
         },
         variant: "contained",
         color: "inherit"
-      }, "SCISSORS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "SCISSORS")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tensorData"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "LOSS: ", this.state && this.state.tensor.loss, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "slidecontainer"
@@ -871,7 +877,7 @@ function (_Component) {
         max: "100",
         value: this.state.learningRate,
         className: "slider"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "ROCK %: ", allResults[0] && (allResults[0] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "PAPER %: ", allResults[1] && (allResults[1] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "SCISSORS%: ", allResults && (allResults[2] + '').slice(0, 5)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "ROCK %: ", allResults[0] && (allResults[0] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "PAPER %: ", allResults[1] && (allResults[1] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "SCISSORS%: ", allResults && (allResults[2] + '').slice(0, 5)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "Graphs"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LossGraph__WEBPACK_IMPORTED_MODULE_3__["default"], {
         loss: this.state.tensor.loss

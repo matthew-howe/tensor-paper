@@ -1,5 +1,7 @@
 ## DEMO: http://tensorpaper.herokuapp.com
 
+![screenshot](https://i.imgur.com/yKXPCXz.png)
+
 Play against a simple AI in Rock Paper Scissors that progressively learns.
 We are utilizing tensorflow.js, and outputting graphs in D3.js.
 
@@ -10,6 +12,8 @@ and our raw output tensor probabilities(I.E -- Rock -- 43%, Paper -- 29%, Scisso
 
 Our input and output tensors are One-hot-encoded in a PostgreSQL database, which is used by the front end
 to continually output new tensor probabilities.
+
+![tensors](https://github.com/matthew-howe/tensorpaperscissors/blob/037273acf5e587ab865a6eb9cb20cdd39b3b98ef/app/components/images/neurons.png)
 
 https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
 

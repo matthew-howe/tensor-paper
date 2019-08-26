@@ -253,7 +253,7 @@ a {
 .sample {
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .line {
@@ -275,6 +275,8 @@ path {
 }
 
 .score {
+    width: 300px;
+    text-align: center;
   margin: 25px;
   border: 2px solid black;
   box-shadow: 1px 1px 1px black;
@@ -282,7 +284,28 @@ path {
   padding: 15px;
 }
 
+.tensorData p {
+    text-align: center;
+    font-size: 18px;
+}
+
+.input-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.hands {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 .userInput {
+  display:flex;
+  width: 500px;
+  flex-direction: row-reverse;  
+  justify-content: space-around;
   text-align: center;
   margin: 25px;
   padding: 15px;
@@ -293,8 +316,11 @@ path {
 }
 
 .tensorData {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   padding: 15px;
-
+    width: 300px;
   margin: 25px;
   border: 2px solid black;
   box-shadow: 1px 1px 1px black;
@@ -304,7 +330,7 @@ path {
 .Graphs {
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-between;
+  justify-content: center;
   border: 2px solid grey;
   box-shadow: 1px 1px 1px black;
   background-color: #f7f7f7;
@@ -345,4 +371,10 @@ button {
   border-radius: 50%;
   background: #4caf50;
   cursor: pointer;
+}
+
+.score-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
 }

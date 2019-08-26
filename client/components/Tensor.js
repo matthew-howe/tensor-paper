@@ -265,7 +265,7 @@ class Tensor extends Component {
     localTies = this.state.wl.filter(el => el === 0)
     let localTotalGames = this.state.wl.length - localTies.length
     let localWinrate = localWins.length / localTotalGames
-    if (isNaN(localWinrate)) localWinrate = ''
+    if (isNaN(localWinrate)) localWinrate = 'No Matches Completed'
     let totalGames
     let winStatus
     let wins
@@ -290,14 +290,18 @@ class Tensor extends Component {
       <div>
         <div className="sample">
           <div className="score">
-            SCOREBOARD: <br />
-            CPU WINRATE: {winrate && winrate}
+              <div className="score-title">
+                  BEST OF 9 <br /><br />
+        </div>
+            CPU WINRATE: {winrate && winrate.toFixed(2)}
             <br />
-            USER WINRATE: {localWinrate && localWinrate}
+            USER WINRATE: {localWinrate === 'No Matches Completed' ?
+                    'Infinity' : localWinrate.toFixed(2)}
+            <br />
             <br />
             {this.state.results &&
               this.state.results.map((el, idx) => (
-                <div key={el}>
+                <div key={Math.random()}>
                   {' '}
                   GAME {idx + 1}: {el}{' '}
                 </div>
@@ -305,12 +309,16 @@ class Tensor extends Component {
           </div>
 
           <div className="userInput">
+              <div className="hands">
             <h1>
               CPU: <img src={this.state.cpuImg} />
             </h1>
             <h1>
               USER: <img src={this.state.userImg} />
             </h1>
+        </div>
+            <div className="input-buttons">
+                <div>
             <Button
               id="prock"
               onClick={() => {
@@ -322,6 +330,8 @@ class Tensor extends Component {
             >
               ROCK
             </Button>
+        </div>
+        <div>
             <Button
               id="ppaper"
               onClick={() => {
@@ -333,6 +343,8 @@ class Tensor extends Component {
             >
               PAPER
             </Button>
+        </div>
+        <div>
             <Button
               id="pscissors"
               onClick={() => {
@@ -344,6 +356,8 @@ class Tensor extends Component {
             >
               SCISSORS
             </Button>
+        </div>
+        </div>
           </div>
           <div className="tensorData">
             <p>LOSS: {this.state && this.state.tensor.loss} </p>
@@ -379,11 +393,6 @@ class Tensor extends Component {
                 className="slider"
               />
             </div>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
 
             <p>
               ROCK %: {allResults[0] && (allResults[0] + '').slice(0, 5)}
