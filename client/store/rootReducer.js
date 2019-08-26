@@ -16,7 +16,6 @@ export const postRounds = data => {
 }
 
 export const fetchDataThunk = () => {
-  console.log('fetchdata running')
   return dispatch => {
     axios
       .get('/api/rounds')

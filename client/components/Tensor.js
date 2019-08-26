@@ -16,7 +16,7 @@ class Tensor extends Component {
         epoch: 0,
         model: null
       },
-      learningRate: 0.2,
+      learningRate: 20,
       epochs: 5,
       user: [],
       cpu: [],
@@ -157,7 +157,6 @@ class Tensor extends Component {
     let result = 0
     for (let i = 0; i < outcomes.length; i++) {
       if (outcomes[i].every((val, idx) => val === game[idx])) {
-        console.log(i)
         i >= 3 ? result++ : result--
       }
     }
@@ -177,7 +176,7 @@ class Tensor extends Component {
     let labelList = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     data = this.props.dataSet
 
-    function setup() {
+    const setup = () => {
       let gameHistory = [] //maybe nest
       let userHistory = []
       data.forEach(el => {
@@ -204,7 +203,7 @@ class Tensor extends Component {
       model.add(hidden)
       model.add(output)
 
-      const LEARNING_RATE = this.state.learningRate
+      const LEARNING_RATE = this.state.learningRate * 0.01
       const optimizer = tf.train.sgd(LEARNING_RATE)
 
       model.compile({
@@ -246,9 +245,6 @@ class Tensor extends Component {
   }
 
   handleChange(event) {
-    if (event.target.name === 'learningRate') {
-      event.target.value /= 100
-    }
     this.setState({[event.target.name]: event.target.value})
   }
 
@@ -346,7 +342,12 @@ class Tensor extends Component {
                 value={this.state.epochs}
                 className="slider"
               />
-              <div>LEARNING RATE: {this.state.learningRate}</div>
+              <br />
+              <br />
+
+              <div>
+                LEARNING RATE: {(this.state.learningRate * 0.01).toFixed(2)}
+              </div>
 
               <input
                 name="learningRate"
@@ -360,6 +361,11 @@ class Tensor extends Component {
                 className="slider"
               />
             </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
 
             <p>
               ROCK %: {allResults[0] && (allResults[0] + '').slice(0, 5)}
@@ -380,7 +386,6 @@ class Tensor extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('hi', state)
   return {
     dataSet: state.rootReducer.dataSet
   }

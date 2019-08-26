@@ -19,15 +19,12 @@ export default class LossGraph extends Component {
 
   componentWillReceiveProps() {
     value = this.props.loss
-    console.log(value)
   }
 
   createGraph() {
-    console.log(this.state.data, 'THIS DOT STATE')
     var n = 40
     var random = d3.randomNormal(0, 0.2)
     var data = this.state.data
-    console.log(data, 'random')
     // data = [1, 2, 4];
     var svg = d3.select('svg'),
       margin = {top: 20, right: 20, bottom: 20, left: 40},

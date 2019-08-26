@@ -182,16 +182,13 @@ function (_Component) {
     key: "componentWillReceiveProps",
     value: function componentWillReceiveProps() {
       value = this.props.loss;
-      console.log(value);
     }
   }, {
     key: "createGraph",
     value: function createGraph() {
-      console.log(this.state.data, 'THIS DOT STATE');
       var n = 40;
       var random = d3.randomNormal(0, 0.2);
-      var data = this.state.data;
-      console.log(data, 'random'); // data = [1, 2, 4];
+      var data = this.state.data; // data = [1, 2, 4];
 
       var svg = d3.select('svg'),
           margin = {
@@ -317,19 +314,19 @@ function (_Component) {
         data: [{
           name: 'Rock',
           data: {
-            '0': this.props.allResults[0]
+            '0': this.props.allResults[0] ? this.props.allResults[0] : 0.3
           },
           color: '#6AAAD6'
         }, {
           name: 'Paper',
           data: {
-            '1': this.props.allResults[1]
+            '0': this.props.allResults[1] ? this.props.allResults[1] : 0.3
           },
           color: '#173D4E'
         }, {
           name: 'Scissors',
           data: {
-            '2': this.props.allResults[2]
+            '0': this.props.allResults[2] ? this.props.allResults[2] : 0.3
           },
           color: 'orange'
         }],
@@ -411,7 +408,7 @@ function (_Component) {
         epoch: 0,
         model: null
       },
-      learningRate: 0.2,
+      learningRate: 20,
       epochs: 5,
       user: [],
       cpu: [],
@@ -621,7 +618,6 @@ function (_Component) {
         if (outcomes[i].every(function (val, idx) {
           return val === game[idx];
         })) {
-          console.log(i);
           i >= 3 ? result++ : result--;
         }
       }
@@ -648,7 +644,7 @@ function (_Component) {
       var labelList = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
       data = this.props.dataSet;
 
-      function setup() {
+      var setup = function setup() {
         var gameHistory = []; //maybe nest
 
         var userHistory = [];
@@ -674,7 +670,7 @@ function (_Component) {
         });
         model.add(hidden);
         model.add(output);
-        var LEARNING_RATE = this.state.learningRate;
+        var LEARNING_RATE = _this2.state.learningRate * 0.01;
         var optimizer = tf.train.sgd(LEARNING_RATE);
         model.compile({
           optimizer: optimizer,
@@ -682,7 +678,7 @@ function (_Component) {
           metrics: ['accuracy']
         });
         train();
-      }
+      };
 
       var train =
       /*#__PURE__*/
@@ -775,10 +771,6 @@ function (_Component) {
   }, {
     key: "handleChange",
     value: function handleChange(event) {
-      if (event.target.name === 'learningRate') {
-        event.target.value /= 100;
-      }
-
       this.setState(_defineProperty({}, event.target.name, event.target.value));
     }
   }, {
@@ -865,7 +857,7 @@ function (_Component) {
         max: "20",
         value: this.state.epochs,
         className: "slider"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "LEARNING RATE: ", this.state.learningRate), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "LEARNING RATE: ", (this.state.learningRate * 0.01).toFixed(2)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         name: "learningRate",
         onChange: function onChange(e) {
           _this3.handleChange(e);
@@ -875,7 +867,7 @@ function (_Component) {
         max: "100",
         value: this.state.learningRate,
         className: "slider"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "ROCK %: ", allResults[0] && (allResults[0] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "PAPER %: ", allResults[1] && (allResults[1] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "SCISSORS%: ", allResults && (allResults[2] + '').slice(0, 5)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "ROCK %: ", allResults[0] && (allResults[0] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "PAPER %: ", allResults[1] && (allResults[1] + '').slice(0, 5), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "SCISSORS%: ", allResults && (allResults[2] + '').slice(0, 5)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "Graphs"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LossGraph__WEBPACK_IMPORTED_MODULE_3__["default"], {
         loss: this.state.tensor.loss
@@ -889,7 +881,6 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 var mapStateToProps = function mapStateToProps(state) {
-  console.log('hi', state);
   return {
     dataSet: state.rootReducer.dataSet
   };
@@ -1042,7 +1033,6 @@ var postRounds = function postRounds(data) {
   };
 };
 var fetchDataThunk = function fetchDataThunk() {
-  console.log('fetchdata running');
   return function (dispatch) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/rounds').then(function (res) {
       return res.data;
