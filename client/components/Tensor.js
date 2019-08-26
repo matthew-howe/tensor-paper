@@ -296,7 +296,7 @@ class Tensor extends Component {
             CPU WINRATE: {winrate && winrate.toFixed(2)}
             <br />
             USER WINRATE: {localWinrate === 'No Matches Completed' ?
-                    'Infinity' : localWinrate.toFixed(2)}
+                    '∞' : localWinrate.toFixed(2)}
             <br />
             <br />
             {this.state.results &&

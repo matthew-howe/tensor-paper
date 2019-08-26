@@ -16,14 +16,14 @@ export default class PredictionGraph extends Component {
               data: {
                 '0': this.props.allResults[0] ? this.props.allResults[0] : 0.3
               },
-              color: '#6AAAD6'
+              color: '#173D4E'
             },
             {
               name: 'Paper',
               data: {
                 '0': this.props.allResults[1] ? this.props.allResults[1] : 0.3
               },
-              color: '#173D4E'
+              color: '#6AAAD6'
             },
             {
               name: 'Scissors',
