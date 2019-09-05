@@ -5,7 +5,27 @@ import {Link, Route} from 'react-router-dom'
 const App = () => {
   return (
     <div>
-      <Route exact path="/" component={Tensor} />
+        <div>
+      <a
+        className="github-link"
+        href="https://github.com/thetensorgroup/tensorpaperscissors"
+        title="Source on GitHub"
+      >
+              <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" className="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"/>
+
+
+      </a>
+      <header>
+        <h2 className="l--page remove-whitespace">
+          Play against a <b>Tensorflow Sequential Model.</b><br />{' '}
+          <span className="remove-whitespace undertitle">Developed by Matthew Howe and Daniel Lanoff.</span>
+        </h2>
+
+      </header>
+  </div>
+      <div>
+        <Route exact path="/" component={Tensor} />
+      </div>
     </div>
   )
 }

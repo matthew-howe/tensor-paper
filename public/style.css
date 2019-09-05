@@ -2,6 +2,36 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.github-link {
+    width: 150px;
+    height: 60px;
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.undertitle {
+    font-size: 20px;
+}
+
+.remove-whitespace {
+  text-align: center;
+  font-family: roboto;
+  margin: 0;
+  letter-spacing: -.02em;
+}
+
+.l--page {
+  font-family: 
+  width: 100%;
+  background-color: #173D4E;
+  color: #FFFFF0;
+  padding: 1.5em;
+  box-shadow: 2px 2px 2px grey;
+}
+
 .email {
   font-family: arial;
   font-size: 64px;
@@ -330,8 +360,8 @@ path {
   border: 2px solid grey;
   box-shadow: 1px 1px 1px black;
   background-color: #f7f7f7;
-  zoom: 0.8;
-  -moz-transform: scale(0.8);
+  zoom: 0.7;
+  -moz-transform: scale(0.7);
 }
 
 button {
