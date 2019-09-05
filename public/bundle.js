@@ -104,11 +104,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "github-link",
+    href: "https://github.com/thetensorgroup/tensorpaperscissors",
+    title: "Source on GitHub"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    width: "149",
+    height: "149",
+    src: "https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149",
+    className: "attachment-full size-full",
+    alt: "Fork me on GitHub",
+    "data-recalc-dims": "1"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "l--page remove-whitespace"
+  }, "Play against a ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Tensorflow Sequential Model."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "remove-whitespace undertitle"
+  }, "Developed by Matthew Howe and Daniel Lanoff.")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/",
     component: _components_Tensor__WEBPACK_IMPORTED_MODULE_1__["default"]
-  }));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -188,8 +203,7 @@ function (_Component) {
     value: function createGraph() {
       var n = 13;
       var random = d3.randomNormal(0, 0.2);
-      var data = this.state.data; // data = [1, 2, 4];
-
+      var data = this.state.data;
       var svg = d3.select('svg'),
           margin = {
         top: 20,
@@ -211,6 +225,7 @@ function (_Component) {
       g.append('g').attr('class', 'axis axis--x').attr('transform', 'translate(0,' + y(0) + ')').call(d3.axisBottom(x));
       g.append('g').attr('class', 'axis axis--y').call(d3.axisLeft(y));
       g.append('g').attr('clip-path', 'url(#clip)').append('path').datum(data).attr('class', 'line').transition().duration(500).ease(d3.easeLinear).on('start', tick);
+      g.append("text").attr("x", width / 2).attr("y", 0 - margin.top / 2 + 20).attr("text-anchor", "middle").style("font-size", "18px").text("Loss");
 
       function tick() {
         // Push a new data point onto the back.
@@ -228,7 +243,7 @@ function (_Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
         width: "700",
-        height: "400"
+        height: "420"
       }));
     }
   }]);
@@ -294,19 +309,21 @@ function (_Component) {
   _createClass(PredictionGraph, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartkick__WEBPACK_IMPORTED_MODULE_2__["BarChart"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "predictions-title"
+      }, "Predictions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartkick__WEBPACK_IMPORTED_MODULE_2__["BarChart"], {
         data: [{
           name: 'Rock',
           data: {
             '0': this.props.allResults[0] ? this.props.allResults[0] : 0.3
           },
-          color: '#6AAAD6'
+          color: '#173D4E'
         }, {
           name: 'Paper',
           data: {
             '0': this.props.allResults[1] ? this.props.allResults[1] : 0.3
           },
-          color: '#173D4E'
+          color: '#6AAAD6'
         }, {
           name: 'Scissors',
           data: {
@@ -812,7 +829,7 @@ function (_Component) {
         className: "score"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "score-title"
-      }, "BEST OF 9 ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), "CPU WINRATE: ", winrate && winrate.toFixed(2), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "USER WINRATE: ", localWinrate === 'No Matches Completed' ? 'Infinity' : localWinrate.toFixed(2), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.state.results && this.state.results.map(function (el, idx) {
+      }, "BEST OF 9 ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), "CPU WINRATE: ", winrate && winrate.toFixed(2), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "USER WINRATE: ", localWinrate === 'No Matches Completed' ? '∞' : localWinrate.toFixed(2), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.state.results && this.state.results.map(function (el, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: Math.random()
         }, ' ', "GAME ", idx + 1, ": ", el, ' ');
