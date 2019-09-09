@@ -119,7 +119,13 @@ var App = function App() {
     className: "l--page remove-whitespace"
   }, "Play against a ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Tensorflow Sequential Model."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "remove-whitespace undertitle"
-  }, "Developed by Matthew Howe and Daniel Lanoff.")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  }, "Developed by ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "portfolio",
+    href: "http://matthewhowe.net"
+  }, "Matthew Howe"), " and ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "portfolio",
+    href: "https://github.com/dlanoff"
+  }, "Daniel Lanoff."))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/",
     component: _components_Tensor__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -82038,7 +82044,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

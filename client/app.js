@@ -18,7 +18,11 @@ const App = () => {
       <header>
         <h2 className="l--page remove-whitespace">
           Play against a <b>Tensorflow Sequential Model.</b><br />{' '}
-          <span className="remove-whitespace undertitle">Developed by Matthew Howe and Daniel Lanoff.</span>
+          <span className="remove-whitespace undertitle">
+              Developed by <a className="portfolio"
+                  href="http://matthewhowe.net">Matthew Howe</a> and <a className="portfolio"
+                  href="https://github.com/dlanoff">Daniel Lanoff.</a>
+          </span>
         </h2>
 
       </header>
