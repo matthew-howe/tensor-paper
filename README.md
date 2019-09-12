@@ -1,10 +1,15 @@
-## DEMO: http://tensorpaper.herokuapp.com
-## VIDEO: https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
+## Tensor, Paper, Scissors
+Play against a simple AI in rock, paper, scissors that progressively learns.
+We are utilizing tensorflow.js, and outputting graphs in D3.js.
+
+```
+Although rock, paper, scissors  may seem like a trivial game, it actually involves the hard computational problem of temporal pattern recognition. This problem is fundamental to the fields of machine learning, artificial intelligence, and data compression. In fact, it might even be essential to understanding how [human intelligence works](https://en.wikipedia.org/wiki/Hierarchical_temporal_memory).
+```
+
+#### DEMO: http://tensorpaper.herokuapp.com
+#### VIDEO: https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
 
 ![screenshot](https://i.gyazo.com/fb5d8691d3cf8fa720f9729818944f6e.png)
-
-Play against a simple AI in Rock Paper Scissors that progressively learns.
-We are utilizing tensorflow.js, and outputting graphs in D3.js.
 
 Utilizing a sequential model we identify the users next rock paper scissors 'throw'. Our AI knows you're going to throw rock next!
 
