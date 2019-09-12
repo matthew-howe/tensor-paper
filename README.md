@@ -2,8 +2,8 @@
 Play against a simple AI in rock, paper, scissors that progressively learns.
 We are utilizing tensorflow.js, and outputting graphs in D3.js.
 
-#### DEMO: http://tensorpaper.herokuapp.com
-#### VIDEO: https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
+#### VIEW LIVE: http://tensorpaper.herokuapp.com
+#### VIDEO WALKTHROUGH: https://www.youtube.com/watch?v=2JwwXxt7hLc&feature=youtu.be
 
 ![screenshot](https://i.gyazo.com/fb5d8691d3cf8fa720f9729818944f6e.png)
 
