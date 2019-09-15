@@ -106,7 +106,7 @@ __webpack_require__.r(__webpack_exports__);
 var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "github-link",
-    href: "https://github.com/thetensorgroup/tensorpaperscissors",
+    href: "https://github.com/matthew-howe/tensorpaperscissors",
     title: "Source on GitHub"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     width: "149",
