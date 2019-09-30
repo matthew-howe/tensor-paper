@@ -3,17 +3,7 @@ import {connect} from 'react-redux'
 import {fetchDataThunk, postRoundsThunk} from '../store/rootReducer'
 import LossGraph from './LossGraph'
 import PredictionGraph from './PredictionGraph'
-// import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
-
-// const useStyles = makeStyles(theme => ({
-//   button: {
-//     margin: theme.spacing(1),
-//   },
-//   input: {
-//     display: 'none',
-//   },
-// }));
 
 let index = 0
 let model = null
