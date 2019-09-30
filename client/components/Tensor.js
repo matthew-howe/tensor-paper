@@ -31,10 +31,10 @@ class Tensor extends Component {
     }
   }
 
-  async componentWillMount() {
-    await this.props.fetchData()
+  componentWillMount() {
+     this.props.fetchData()
   }
-  async componentDidMount() {
+  componentDidMount() {
     this.props.getRounds()
   }
 
