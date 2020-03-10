@@ -75,6 +75,7 @@ img {
   text-align: right;
 }
 
+
 .footercont {
   display: flex;
   flex-direction: row-reverse;
@@ -353,7 +354,7 @@ path {
   box-shadow: 1px 1px 1px black;
   background-color: #f7f7f7;
   zoom: 0.7;
-  -moz-transform: scale(0.7);
+  -moz-transform: scale(1);
 }
 
 button {
