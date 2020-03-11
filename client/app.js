@@ -2,6 +2,8 @@ import React from 'react'
 import Tensor from './components/Tensor'
 import {Link, Route} from 'react-router-dom'
 
+import './app.css';
+
 const App = () => {
   return (
     <div>
