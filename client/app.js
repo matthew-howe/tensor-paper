@@ -22,7 +22,7 @@ const App = () => {
           Play against a <b>Tensorflow Sequential Model.</b><br />{' '}
           <span className="remove-whitespace undertitle">
               Developed by <a className="portfolio"
-                  href="http://matthewhowe.net">Matthew Howe</a> and <a className="portfolio"
+                  href="http://matthw.com">Matthew Howe</a> and <a className="portfolio"
                   href="https://github.com/dlanoff">Daniel Lanoff.</a>
           </span>
         </h2>
