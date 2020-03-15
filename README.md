@@ -18,12 +18,12 @@ and our raw output tensor probabilities(I.E -- Rock -- 43%, Paper -- 29%, Scisso
 Our input and output tensors are One-hot-encoded in a PostgreSQL database, which is used by the front end
 to continually output new tensor probabilities.
 
-![tensors](https://github.com/matthew-howe/tensorpaperscissors/blob/037273acf5e587ab865a6eb9cb20cdd39b3b98ef/app/components/images/neurons.png)
+![tensors](https://github.com/matthew-howe/tensor-paper/blob/037273acf5e587ab865a6eb9cb20cdd39b3b98ef/app/components/images/neurons.png)
 
 
 ### SETUP for cloning to run locally
 
-• git clone https://github.com/thetensorgroup/tensorpaperscissors.git  
+• git clone https://github.com/matthew-howe/tensor-paper 
 • createdb tensorps (Postgres database requires db named 'tensorps')  
 • npm install  
 • npm run start
