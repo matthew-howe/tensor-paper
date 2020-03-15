@@ -1,4 +1,7 @@
-## Tensor, Paper, Scissors
+# Tensor, Paper, Scissors
+
+![GitHub last commit](https://img.shields.io/github/last-commit/matthew-howe/tensor-paper) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/matthew-howe/tensor-paper) ![GitHub issues](https://img.shields.io/github/issues/matthew-howe/tensor-paper) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/matthew-howe/tensor-paper) ![Website](https://img.shields.io/website?url=https%3A%2F%2Fmatthowe.io) 
+
 Although rock, paper, scissors  may seem like a trivial game, it actually involves the hard computational problem of temporal pattern recognition. This problem is fundamental to the fields of machine learning, artificial intelligence, and data compression. In fact, it might even be essential to understanding how [human intelligence works](https://en.wikipedia.org/wiki/Hierarchical_temporal_memory).
 
 #### DEMO: https://matthowe.io
