@@ -24,7 +24,7 @@ to continually output new tensor probabilities.
 ### SETUP for cloning to run locally
 ```
 git clone https://github.com/matthew-howe/tensor-paper 
-createdb tensorps (Postgres database requires db named 'tensorps')  
+createdb tensorps
 npm install  
 npm run start
 ```
