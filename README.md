@@ -26,5 +26,5 @@ to continually output new tensor probabilities.
 git clone https://github.com/matthew-howe/tensor-paper 
 createdb tensorps
 npm install  
-npm run start
+npm run start-dev
 ```
