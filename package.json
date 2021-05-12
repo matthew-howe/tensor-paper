@@ -39,7 +39,7 @@
     "@material-ui/core": "^4.3.3",
     "axios": "^0.18.0",
     "chart": "^0.1.2",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
     "express": "^4.16.4",
